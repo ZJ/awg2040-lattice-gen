@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 ## Script to download and compile gtest
 
@@ -37,10 +37,12 @@ mkdir -p $SRC_DIR
 
 # Download gtest
 cd $SRC_DIR
+echo -e "\e[34mDownloading sources\e[0m"
 curl -LO https://googletest.googlecode.com/files/gtest-1.7.0.zip
-unzip gtest-1.7.0.zip
+unzip -q gtest-1.7.0.zip
 
 # Build gtest
+echo -e "\e[34mBuilding via cmake\e[0m"
 cd $BUILD_DIR
 if cmake . && make
 then
