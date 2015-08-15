@@ -1,0 +1,11 @@
+language: c
+compiler: gcc
+sudo: false
+before_script:
+  - gtest/build_gtest.sh
+script:
+  - make && make check
+after_success:
+  - echo -e "\e[32m( \' \u25bd \` )b  $TRAVIS_BRANCH of $TRAVIS_REPO_SLUG on $HOST\e[0m"
+after_failure:
+  - echo -e "\e[31m(╯°□°)╯︵ ┻━┻  $HOST\e[0m"
