@@ -1,3 +1,12 @@
+## Github's CMake Template
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+## Github's C++ Template
 # Compiled Object files
 *.slo
 *.lo
