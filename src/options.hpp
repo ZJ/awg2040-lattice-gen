@@ -25,7 +25,7 @@ bool getDebug() const;
 bool getQuiet() const;
 std::string getInputPath() const;
 
-//int processCmdLine(int argc, char * argv[]);
+int processCmdLine(int argc, char * argv[]);
 void print(std::ostream& out) const;
 private:
 bool myHelpFlag, myTemplateFlag, myDebugFlag, myQuietFlag;
@@ -34,7 +34,7 @@ std::string myInputPath;
 
 // Inlined Constructors
 inline CmdLineOptions::CmdLineOptions() {
- myHelpFlag = false;
+myHelpFlag = false;
 myTemplateFlag = false;
 myDebugFlag = false;
 myQuietFlag = false;

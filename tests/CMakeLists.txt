@@ -6,7 +6,7 @@
 
 set(TEST_NAME testCmdLineOptions)
 add_executable(${TEST_NAME} "${TEST_NAME}.cpp")
-#target_link_libraries(${TEST_NAME} )
+target_link_libraries(${TEST_NAME} options)
 set( ALL_TESTS ${ALL_TESTS} ${TEST_NAME} )
 
 # Link every test to ${GTEST_LIBS}, and add it to the test runner
