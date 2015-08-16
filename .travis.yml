@@ -5,8 +5,13 @@ addons:
   apt:
     packages:
       - libgtest-dev
-before_script:
+      - lcov
+install:
+  - gem install coveralls-lcov
   - gtest/build_gtest.sh
+before_script:
+  - cd ${TRAVIS_BUILD_DIR}
+  - lcov --directory . --zerocounters
 script:
   - make && make check
 after_success:
