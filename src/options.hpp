@@ -27,6 +27,10 @@ std::string getInputPath() const;
 
 int processCmdLine(int argc, char * argv[]);
 void print(std::ostream& out) const;
+
+bool operator ==(const CmdLineOptions& d) const;
+friend std::ostream& operator<<(std::ostream& os, const CmdLineOptions& opts); 
+
 private:
 bool myHelpFlag, myTemplateFlag, myDebugFlag, myQuietFlag;
 std::string myInputPath;	
