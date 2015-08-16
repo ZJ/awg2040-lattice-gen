@@ -12,6 +12,7 @@ install:
 before_script:
   - cd ${TRAVIS_BUILD_DIR}
   - lcov --directory . --zerocounters
+  - cmake .
 script:
   - make && make check
 after_success:
