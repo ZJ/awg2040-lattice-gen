@@ -8,14 +8,19 @@ configure_file (
 "${PROJECT_BINARY_DIR}/Config.h"
 )
 
+MESSAGE( STATUS "Value of TRAVIS: $ENV{TRAVIS}")
+if(DEFINED ENV{TRAVIS})
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -g -O0")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+endif()
+
 include_directories("${PROJECT_BINARY_DIR}")
 
 add_executable(Test "src/driveOpts.cpp")
 
 find_library( GTEST gtest "${PROJECT_SOURCE_DIR}/gtest/builds/native/lib")
-
-add_executable( "tests/testOptions" "tests/testCmdLineOptions.cpp" )
-target_link_libraries( "tests/testOptions" ${GTEST} pthread )
+set(GTEST_LIBS "${GTEST}" pthread)
 
 enable_testing()
-add_test( optConstr "tests/testOptions")
+
+add_subdirectory(tests)
