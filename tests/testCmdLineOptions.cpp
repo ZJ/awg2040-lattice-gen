@@ -10,49 +10,50 @@ CmdLineOptions opts;
 };
 
 TEST_F(CmdLineOptionsTest, DefaultConstructor) {
-EXPECT_EQ(false, opts.getHelp());
-EXPECT_EQ(false, opts.getTemplate());
-EXPECT_EQ(false, opts.getDebug());
-EXPECT_EQ(false, opts.getQuiet());
+EXPECT_FALSE(opts.getHelp());
+EXPECT_FALSE(opts.getTemplate());
+EXPECT_FALSE(opts.getDebug());
+EXPECT_FALSE(opts.getQuiet());
 EXPECT_EQ("", opts.getInputPath());
 }
 
 TEST_F(CmdLineOptionsTest, ExplicitConstructor) {
 CmdLineOptions helpSet(true,false,false,false,"");
-EXPECT_EQ(true, helpSet.getHelp());
-EXPECT_EQ(false, helpSet.getTemplate());
-EXPECT_EQ(false, helpSet.getDebug());
-EXPECT_EQ(false, helpSet.getQuiet());
+EXPECT_TRUE(helpSet.getHelp());
+EXPECT_FALSE(helpSet.getTemplate());
+EXPECT_FALSE(helpSet.getDebug());
+EXPECT_FALSE(helpSet.getQuiet());
 EXPECT_EQ("", helpSet.getInputPath());
 
 CmdLineOptions tempSet(false,true,false,false,"");
-EXPECT_EQ(false, tempSet.getHelp());
-EXPECT_EQ(true, tempSet.getTemplate());
-EXPECT_EQ(false, tempSet.getDebug());
-EXPECT_EQ(false, tempSet.getQuiet());
+EXPECT_FALSE(tempSet.getHelp());
+EXPECT_TRUE(tempSet.getTemplate());
+EXPECT_FALSE(tempSet.getDebug());
+EXPECT_FALSE(tempSet.getQuiet());
 EXPECT_EQ("", tempSet.getInputPath());
 
 CmdLineOptions debugSet(false,false,true,false,"");
-EXPECT_EQ(false, debugSet.getHelp());
-EXPECT_EQ(false, debugSet.getTemplate());
-EXPECT_EQ(true, debugSet.getDebug());
-EXPECT_EQ(false, debugSet.getQuiet());
+EXPECT_FALSE(debugSet.getHelp());
+EXPECT_FALSE(debugSet.getTemplate());
+EXPECT_TRUE(debugSet.getDebug());
+EXPECT_FALSE(debugSet.getQuiet());
 EXPECT_EQ("", debugSet.getInputPath());
 
 CmdLineOptions quietSet(false,false,false,true,"");
-EXPECT_EQ(false, quietSet.getHelp());
-EXPECT_EQ(false, quietSet.getTemplate());
-EXPECT_EQ(false, quietSet.getDebug());
-EXPECT_EQ(true, quietSet.getQuiet());
+EXPECT_FALSE(quietSet.getHelp());
+EXPECT_FALSE(quietSet.getTemplate());
+EXPECT_FALSE(quietSet.getDebug());
+EXPECT_TRUE(quietSet.getQuiet());
 EXPECT_EQ("", quietSet.getInputPath());
 
 CmdLineOptions pathSet(false,false,false,false,"ExplicitConstructorPath");
-EXPECT_EQ(false, pathSet.getHelp());
-EXPECT_EQ(false, pathSet.getTemplate());
-EXPECT_EQ(false, pathSet.getDebug());
-EXPECT_EQ(false, pathSet.getQuiet());
+EXPECT_FALSE(pathSet.getHelp());
+EXPECT_FALSE(pathSet.getTemplate());
+EXPECT_FALSE(pathSet.getDebug());
+EXPECT_FALSE(pathSet.getQuiet());
 EXPECT_EQ("ExplicitConstructorPath", pathSet.getInputPath());
 }
+
 } // end namespace
 
 int main(int argc, char * argv[]) {
