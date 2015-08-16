@@ -23,6 +23,7 @@ bool getHelp() const;
 bool getTemplate() const;
 bool getDebug() const;
 bool getQuiet() const;
+std::string getInputPath() const;
 
 //int processCmdLine(int argc, char * argv[]);
 void print(std::ostream& out) const;
@@ -89,6 +90,10 @@ return myDebugFlag;
 
 inline bool  CmdLineOptions::getQuiet() const {
 return myQuietFlag;
+}
+
+inline std::string CmdLineOptions::getInputPath() const {
+return myInputPath;
 }
 
 #endif // AWG2040_OPTIONS_HPP_20150815
