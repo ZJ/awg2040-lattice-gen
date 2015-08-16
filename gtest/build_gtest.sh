@@ -16,34 +16,27 @@ fi
 if test -n "$HOST"
 then
 	GTEST_HOST="$HOST"
-	echo -e "\e[33m(#^.^#) Cross-compilation currently unsupported by this project.\e[0m"
+	echo -e "\e[33m(\e[31;1m#\e[0;33m^.^\e[31;1m#\e[0;33m) Cross-compilation currently unsupported by this project.\e[0m"
 	exit 1
 else
 	GTEST_HOST=native
 fi
 
 # Where we expect to find/put things.
-
 OUT_DIR="${TRAVIS_BUILD_DIR}/gtest/builds/${GTEST_HOST}"
 LIB_DIR="${OUT_DIR}/lib"
-INC_DIR="${OUT_DIR}/include"
 SRC_DIR="${TRAVIS_BUILD_DIR}/gtest/src"
-BUILD_DIR="${SRC_DIR}/gtest-1.7.0"
 
 mkdir -p $OUT_DIR
 mkdir -p $LIB_DIR
-mkdir -p $INC_DIR
 mkdir -p $SRC_DIR
 
-# Download gtest
+# Move gtest to where we expect it
+cp -pur /usr/src/gtest/* "$SRC_DIR"
 cd $SRC_DIR
-echo -e "\e[34mDownloading sources\e[0m"
-curl -LO https://googletest.googlecode.com/files/gtest-1.7.0.zip
-unzip -q gtest-1.7.0.zip
 
 # Build gtest
 echo -e "\e[34mBuilding via cmake\e[0m"
-cd $BUILD_DIR
 if cmake . && make
 then
 	echo -en ""
@@ -55,8 +48,7 @@ fi
 
 
 # Copy build products/headers to final locations
-cp -pur include/* "$INC_DIR"
-cp -put "$LIB_DIR" "${BUILD_DIR}/libgtest.a" "${BUILD_DIR}/libgtest_main.a"
+cp -put "$LIB_DIR" "${SRC_DIR}/libgtest.a" "${SRC_DIR}/libgtest_main.a"
 
 # Back to the build directory
 cd ${TRAVIS_BUILD_DIR}
