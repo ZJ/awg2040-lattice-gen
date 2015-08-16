@@ -19,6 +19,11 @@ void setDebug(bool value);
 void setQuiet(bool value);
 void setInput(std::string newPath);
 
+bool getHelp() const;
+bool getTemplate() const;
+bool getDebug() const;
+bool getQuiet() const;
+
 //int processCmdLine(int argc, char * argv[]);
 void print(std::ostream& out) const;
 private:
@@ -65,9 +70,25 @@ myInputPath = newPath;
 }
 
 inline void CmdLineOptions::print(std::ostream &out) const {
-out << "Help:    \t" << myHelpFlag  << ";\tTemplate:\t" << myTemplateFlag << ";" << endl;
-out << "Debug:   \t" << myDebugFlag << ";\tQuiet:   \t" << myQuietFlag    << ";" << endl;
-out << "Input path:\t" << myInputPath << endl;
+out << "Help:    \t" << myHelpFlag  << ";\tTemplate:\t" << myTemplateFlag << ";" << std::endl;
+out << "Debug:   \t" << myDebugFlag << ";\tQuiet:   \t" << myQuietFlag    << ";" << std::endl;
+out << "Input path:\t" << myInputPath << std::endl;
+}
+
+inline bool CmdLineOptions::getHelp() const {
+return myHelpFlag;
+}
+
+inline bool  CmdLineOptions::getTemplate() const {
+return myTemplateFlag;
+}
+
+inline bool  CmdLineOptions::getDebug() const {
+return myDebugFlag;
+}
+
+inline bool  CmdLineOptions::getQuiet() const {
+return myQuietFlag;
 }
 
 #endif // AWG2040_OPTIONS_HPP_20150815

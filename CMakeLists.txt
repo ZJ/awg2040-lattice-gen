@@ -11,3 +11,11 @@ configure_file (
 include_directories("${PROJECT_BINARY_DIR}")
 
 add_executable(Test src/driveOpts.cpp)
+
+find_library( GTEST gtest "gtest/builds/native/lib")
+
+add_executable(tests/testOptions tests/testCmdLineOptions.cpp)
+target_link_libraries(tests/testOptions ${GTEST} pthread)
+
+enable_testing()
+add_test( optConstr tests/testOptions)
