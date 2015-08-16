@@ -1,5 +1,8 @@
-#include <gtest/gtest.h>
 #include <string>
+#include <sstream>
+using namespace std;
+
+#include <gtest/gtest.h>
 #include "../src/options.hpp"
 
 namespace {
@@ -54,6 +57,16 @@ EXPECT_FALSE(pathSet.getQuiet());
 EXPECT_EQ("ExplicitConstructorPath", pathSet.getInputPath());
 }
 
+TEST_F(CmdLineOptionsTest, Print) {
+stringstream testStream;
+string expectedResponse="Help:    \t0;\tTemplate:\t0;\nDebug:   \t0;\tQuiet:   \t0;\nInput path:\tPrintedPath\n";
+
+opts.setInputPath("PrintedPath");
+
+opts.print(testStream);
+EXPECT_EQ(expectedResponse, testStream.str());
+
+}
 } // end namespace
 
 int main(int argc, char * argv[]) {

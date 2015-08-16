@@ -17,7 +17,7 @@ void setHelp(bool value);
 void setTemplate(bool value);
 void setDebug(bool value);
 void setQuiet(bool value);
-void setInput(std::string newPath);
+void setInputPath(std::string newPath);
 
 bool getHelp() const;
 bool getTemplate() const;
@@ -66,7 +66,7 @@ inline void CmdLineOptions::setQuiet(bool value){
 myQuietFlag = value;
 }
 
-inline void CmdLineOptions::setInput(std::string newPath) {
+inline void CmdLineOptions::setInputPath(std::string newPath) {
 myInputPath = newPath;
 }
 
