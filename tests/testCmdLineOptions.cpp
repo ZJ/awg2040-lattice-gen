@@ -129,16 +129,13 @@ virtual void SetUp() {
 }
 
 virtual void TearDown() {
-cerr << "Before delete expectedOptions\n";
 delete expectedOptions;
 expectedOptions = NULL;
 for(int i=1; i<argc; i++) {
-cerr << "LoopLoc" << i << endl;
   if(NULL != argv[i]) {
 	delete[] argv[i];
         argv[i]=NULL;
 }
-cerr << "ItFinished" << i << endl;
 }
 }
 
