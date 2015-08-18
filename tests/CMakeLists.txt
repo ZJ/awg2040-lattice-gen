@@ -24,14 +24,14 @@ VERBATIM)
 
 # Generate Initial Coverage Info 
 add_custom_target(coverage-initial
-lcov -q --no-external --directory ${PROJECT_SOURCE_DIR} --initial --capture --output-file coverage.info.base
+lcov -q --directory ${PROJECT_SOURCE_DIR} --initial --capture --output-file coverage.info.base
 COMMENT "Test Coverage: Generating intitial info"
 VERBATIM)
 
 # Process Coverage from Tests
 add_custom_target(coverage-results
 $(CMAKE_COMMAND) -E cmake_echo_color --blue "Capturing Test Coverage"
-COMMAND lcov -q --no-external --directory ${PROJECT_SOURCE_DIR} --capture --output-file coverage.info.test
+COMMAND lcov -q --directory ${PROJECT_SOURCE_DIR} --capture --output-file coverage.info.test
 COMMAND $(CMAKE_COMMAND) -E cmake_echo_color --blue "Merging with Initial Coverage"
 COMMAND lcov -q --add-tracefile coverage.info.base --add-tracefile coverage.info.test --output-file coverage.info
 COMMAND $(CMAKE_COMMAND) -E cmake_echo_color --blue "Removing Irrelevant Information"
