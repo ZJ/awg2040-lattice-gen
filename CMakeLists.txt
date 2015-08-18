@@ -16,11 +16,10 @@ endif()
 
 include_directories("${PROJECT_BINARY_DIR}")
 
-add_library(options "src/options.cpp" "src/options.hpp")
-
 find_library( GTEST gtest "${PROJECT_SOURCE_DIR}/gtest/builds/native/lib")
 set(GTEST_LIBS "${GTEST}" pthread)
 
 enable_testing()
 
+add_subdirectory(src)
 add_subdirectory(tests)
