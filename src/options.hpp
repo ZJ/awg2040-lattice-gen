@@ -4,6 +4,8 @@
 #include <string>
 #include <iostream>
 
+enum {OPT_PARSE_OK, OPT_PARSE_BAD_OPTS, OPT_PARSE_ERR};
+
 class CmdLineOptions {
 public:
 // Constructors

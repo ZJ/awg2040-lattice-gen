@@ -118,12 +118,10 @@ virtual void SetUp() {
         argc++;
   } 
   if (!inputIn.empty()) {
+	inputIn += "=" + dummyPath;
         argv[argc] = new char [inputIn.length()+1];
 	strcpy(argv[argc], inputIn.c_str());
         argc++;
-	argv[argc] = new char [dummyPath.length()+1];
-	strcpy(argv[argc], dummyPath.c_str());
-	argc++;
   }
   for (int i = argc; i<8; i++) argv[i]=NULL;
 }
@@ -142,7 +140,7 @@ for(int i=1; i<argc; i++) {
 };
 
 TEST_P(ProcessCmdLineTest, ProcessesCorrectly) {
-ASSERT_EQ(0, processedOptions.processCmdLine(argc, argv));
+ASSERT_EQ(OPT_PARSE_OK, processedOptions.processCmdLine(argc, argv));
 EXPECT_EQ(*expectedOptions, processedOptions);
 }
 

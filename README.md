@@ -3,3 +3,5 @@
 
 A C++ project to generate control strings for a AWG2040 (and similar)
 
+
+This project uses the [optionparser library](http://optionparser.sourceforge.net) by Matthias Benkmann, which is under the MIT license.
