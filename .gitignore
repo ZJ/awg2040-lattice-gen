@@ -1,3 +1,14 @@
+# Generated Config header
+Config.h
+
+## Compiled test programs
+*.test
+
+## CTest
+CTestTestfile.cmake
+Testing/*
+*/test_detail.xml
+
 ## Github's CMake Template
 CMakeCache.txt
 CMakeFiles
