@@ -1,6 +1,7 @@
 # Generated Config header
 Config.h
-
+# Out-of-source build directory
+build/*
 ## Compiled test programs
 *.test
 
