@@ -4,7 +4,8 @@ Config.h
 build/*
 ## Compiled test programs
 *.test
-
+# Coverage information
+tests/*coverage.*
 ## CTest
 CTestTestfile.cmake
 Testing/*
