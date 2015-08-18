@@ -19,6 +19,6 @@ script:
   - make test
 after_success:
   - echo -e "\e[32m( ' \u25bd \` )b  $TRAVIS_BRANCH of $TRAVIS_REPO_SLUG on $HOST\e[0m"; make coverage-results
-  - coveralls-lcov --repo-token ${COVERALLS_TOKEN} coverage.info
+  - coveralls-lcov --repo-token ${COVERALLS_TOKEN} tests/coverage.info
 after_failure:
   - echo -e "\e[31m(╯°□°)╯︵ ┻━┻  $HOST\e[0m"
