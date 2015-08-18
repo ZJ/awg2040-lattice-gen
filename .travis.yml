@@ -18,10 +18,10 @@ script:
   - lcov --directory . --initial --capture --output-file coverage.info.base
   - make test
 after_success:
-  - echo -e "\e[32m( \' \u25bd \` )b  $TRAVIS_BRANCH of $TRAVIS_REPO_SLUG on $HOST\e[0m"
+  - echo -e "\e[32m( ' \u25bd \` )b  $TRAVIS_BRANCH of $TRAVIS_REPO_SLUG on $HOST\e[0m"
   - lcov --directory . --capture --output-file coverage.info.test
   - lcov --add-tracefile coverage.info.base --add-tracefile coverage.info.test --output-file coverage.info
-  - lcov --remove coverage.info 'tests/*' '/usr/*' --output-file coverage.info
+  - lcov --remove coverage.info 'tests/*' '/usr/*' 'optionparser/*' --output-file coverage.info
   - lcov --list coverage.info
   - coveralls-lcov --repo-token ${COVERALLS_TOKEN} coverage.info
 after_failure:
