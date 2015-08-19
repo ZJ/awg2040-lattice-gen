@@ -6,7 +6,17 @@
 
 add_custom_target(all-tests)
 
-set(TEST_NAME testCmdLineOptions)
+set(TEST_NAME testCmdLineOptions-ProcessArgs)
+add_executable(${TEST_NAME}.test EXCLUDE_FROM_ALL "${TEST_NAME}.cpp")
+target_link_libraries(${TEST_NAME}.test options)
+set( ALL_TESTS ${ALL_TESTS} ${TEST_NAME}.test )
+
+set(TEST_NAME testCmdLineOptions-Constructors)
+add_executable(${TEST_NAME}.test EXCLUDE_FROM_ALL "${TEST_NAME}.cpp")
+target_link_libraries(${TEST_NAME}.test options)
+set( ALL_TESTS ${ALL_TESTS} ${TEST_NAME}.test )
+
+set(TEST_NAME testCmdLineOptions-Display)
 add_executable(${TEST_NAME}.test EXCLUDE_FROM_ALL "${TEST_NAME}.cpp")
 target_link_libraries(${TEST_NAME}.test options)
 set( ALL_TESTS ${ALL_TESTS} ${TEST_NAME}.test )
