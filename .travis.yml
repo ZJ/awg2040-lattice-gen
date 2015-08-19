@@ -13,9 +13,10 @@ before_script:
   - cd ${TRAVIS_BUILD_DIR}
   - cmake .
   - make coverage-zero
-script:
   - make
+  - make all-tests
   - make coverage-initial
+script:
   - make test
 after_success:
   - echo -e "\e[32m( ' \u25bd \` )b  $TRAVIS_BRANCH of $TRAVIS_REPO_SLUG on $HOST\e[0m"; make coverage-results
