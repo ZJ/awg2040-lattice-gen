@@ -1,4 +1,8 @@
+#include <sstream>
+using namespace std;
+
 #include <gtest/gtest.h>
+
 #include "../src/pulseTrain.hpp"
 
 TEST(FreqPulseDefaultConstructor, ExpectedValues) {
@@ -40,6 +44,17 @@ TEST(freqPulseEquality, DiffNotEqual) {
 	notTestPulse = freqPulse(0,1.0,0,false,true);
 	EXPECT_FALSE(testPulse==notTestPulse) << " Missed " << "duration marker.";
 
+}
+
+TEST(freqPulseInsertion, CompareDefault) {
+	freqPulse testPulse;
+	stringstream result;
+	stringstream expectedResult;
+	expectedResult << "Pulse " << (double) 0.0 << "MHz for " << (double) 0.0 << "ns with amplitude of " << (double) 1.0;
+	expectedResult << ", without initial marker and without duration marker.";
+
+	result << testPulse;
+	EXPECT_EQ(expectedResult.str(), result.str());
 }
 
 int main(int argc, char * argv[] ) {
