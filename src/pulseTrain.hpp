@@ -1,8 +1,7 @@
 #ifndef PULSE_TRAIN_HPP_20150819
 #define PULSE_TRAIN_HPP_20150819
 #include <iostream>
-
-
+#include <queue>
 class freqPulse {
 	public:
 		freqPulse() {
@@ -24,7 +23,7 @@ class freqPulse {
 		inline bool	getMarkStart()    const {return myMarkStart;}
 		inline bool	getMarkDuration() const {return myMarkDuration;}
 		// Overload Operators
-		bool operator ==(const freqPulse & otherPulse) {
+		bool operator ==(const freqPulse & otherPulse) const{
 			return ((myFrequency == otherPulse.getFrequency()) 
 				&& (myAmplitude == otherPulse.getAmplitude())
 				&& (myDuration == otherPulse.getDuration())
@@ -40,4 +39,25 @@ class freqPulse {
 		bool	myMarkDuration;
 };
 
+class pulseTrain {
+	public:
+		// Constructors
+		inline pulseTrain(double shift=0, std::queue<freqPulse> pulseQueue=std::queue<freqPulse>()) {
+			myCyclicShift  = shift;
+			myPulses = pulseQueue;
+		};
+		// Restricted set of queue methods for freqPulse queue
+		inline void pop() {myPulses.pop();};
+		inline void pushPulse(const freqPulse& toPush) {myPulses.push(toPush);};
+		inline freqPulse& front() {return myPulses.front();};
+		inline bool empty() const {return myPulses.empty();};
+		inline std::vector<freqPulse>::size_type size() const {return myPulses.size();};
+		// Accessors
+		inline std::queue<freqPulse> getPulses() const {return myPulses;};
+		inline double getShift() const {return myCyclicShift;};
+		inline void setShift(const double shift) {myCyclicShift=shift;};
+	private:
+		double myCyclicShift;
+		std::queue<freqPulse> myPulses;
+};
 #endif //PULSE_TRAIN_HPP_20150819
