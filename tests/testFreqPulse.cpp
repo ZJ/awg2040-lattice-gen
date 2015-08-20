@@ -10,17 +10,24 @@ TEST(FreqPulseDefaultConstructor, ExpectedValues) {
 	EXPECT_EQ((double) 0, testPulse.getFrequency());
 	EXPECT_EQ(double(1), testPulse.getAmplitude());
 	EXPECT_EQ(double(0), testPulse.getDuration());
+	EXPECT_EQ(double(0), testPulse.getPhase());
 	EXPECT_FALSE(testPulse.getMarkStart());
 	EXPECT_FALSE(testPulse.getMarkDuration());
 }
 
 TEST(FreqPulseExplicitConstructor, DefaultOptionalValues) {
 	freqPulse testPulse = freqPulse(1.0,1.0,1.0);
-
+	EXPECT_EQ(double(0.0),testPulse.getPhase());
+	EXPECT_FALSE(testPulse.getMarkStart());
+	EXPECT_FALSE(testPulse.getMarkDuration());
+	
+	testPulse = freqPulse(1.0,1.0,1.0,-1.0);
+	EXPECT_EQ(double(-1.0),testPulse.getPhase());
 	EXPECT_FALSE(testPulse.getMarkStart());
 	EXPECT_FALSE(testPulse.getMarkDuration());
 
-	testPulse = freqPulse(1.0,1.0,1.0,true);
+	testPulse = freqPulse(1.0,1.0,1.0,-1.0,true);
+	EXPECT_EQ(double(-1.0),testPulse.getPhase());
 	EXPECT_TRUE(testPulse.getMarkStart());
 	EXPECT_FALSE(testPulse.getMarkDuration());
 }
@@ -33,15 +40,17 @@ TEST(FreqPulseEquality, SelfEqual) {
 TEST(freqPulseEquality, DiffNotEqual) {
 	freqPulse testPulse, notTestPulse;
 
-	notTestPulse = freqPulse(2,1.0,0,false,false);
+	notTestPulse = freqPulse(2,1.0,0,0,false,false);
 	EXPECT_FALSE(testPulse==notTestPulse) << " Missed " << "frequency.";
-	notTestPulse = freqPulse(0,0.5,0,false,false);
+	notTestPulse = freqPulse(0,0.5,0,0,false,false);
 	EXPECT_FALSE(testPulse==notTestPulse) << " Missed " << "amplitude.";
-	notTestPulse = freqPulse(0,1.0,1,false,false);
+	notTestPulse = freqPulse(0,1.0,1,0,false,false);
 	EXPECT_FALSE(testPulse==notTestPulse) << " Missed " << "duration.";
-	notTestPulse = freqPulse(0,1.0,0,true,false);
+	notTestPulse = freqPulse(0,1.0,1,-1,false,false);
+	EXPECT_FALSE(testPulse==notTestPulse) << " Missed " << "phase.";
+	notTestPulse = freqPulse(0,1.0,0,0,true,false);
 	EXPECT_FALSE(testPulse==notTestPulse) << " Missed " << "start marker.";
-	notTestPulse = freqPulse(0,1.0,0,false,true);
+	notTestPulse = freqPulse(0,1.0,0,0,false,true);
 	EXPECT_FALSE(testPulse==notTestPulse) << " Missed " << "duration marker.";
 
 }
@@ -51,6 +60,7 @@ TEST(freqPulseInsertion, CompareDefault) {
 	stringstream result;
 	stringstream expectedResult;
 	expectedResult << "Pulse " << (double) 0.0 << "MHz for " << (double) 0.0 << "ns with amplitude of " << (double) 1.0;
+	expectedResult << " and phase " << double(0.0) << "*pi";
 	expectedResult << ", without initial marker and without duration marker.";
 
 	result << testPulse;

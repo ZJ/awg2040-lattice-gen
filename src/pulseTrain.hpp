@@ -5,14 +5,15 @@
 class freqPulse {
 	public:
 		freqPulse() {
-			myFrequency = myDuration = 0;
+			myFrequency = myDuration = myPhase = 0;
 			myAmplitude = 1.0;
 			myMarkStart = myMarkDuration = false;
 		}
-		freqPulse(double setFreq, double setAmp, double setDur, bool setStart=false, bool setMarkAll=false) {
+		freqPulse(double setFreq, double setAmp, double setDur, double setPhase=0.0, bool setStart=false, bool setMarkAll=false) {
 			myFrequency = setFreq;
 			myAmplitude = setAmp;
 			myDuration  = setDur;
+			myPhase     = setPhase;
 			myMarkStart = setStart;
 			myMarkDuration = setMarkAll;
 		}
@@ -20,6 +21,7 @@ class freqPulse {
 		inline double	getFrequency()    const {return myFrequency;}
 		inline double	getAmplitude()    const {return myAmplitude;}
 		inline double	getDuration()     const {return myDuration;}
+		inline double   getPhase()        const {return myPhase;}
 		inline bool	getMarkStart()    const {return myMarkStart;}
 		inline bool	getMarkDuration() const {return myMarkDuration;}
 		// Overload Operators
@@ -27,6 +29,7 @@ class freqPulse {
 			return ((myFrequency == otherPulse.getFrequency()) 
 				&& (myAmplitude == otherPulse.getAmplitude())
 				&& (myDuration == otherPulse.getDuration())
+				&& (myPhase == otherPulse.getPhase())
 				&& (myMarkStart == otherPulse.getMarkStart())
 				&& (myMarkDuration == otherPulse.getMarkDuration()));
 		}
@@ -35,6 +38,7 @@ class freqPulse {
 		double	myFrequency;
 		double	myAmplitude;
 		double	myDuration;
+		double  myPhase;
 		bool	myMarkStart;
 		bool	myMarkDuration;
 };
