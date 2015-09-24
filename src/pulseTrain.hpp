@@ -36,7 +36,10 @@ class freqPulse {
 				&& (myMarkDuration == otherPulse.getMarkDuration()));
 		}
 		friend std::ostream & operator<<(std::ostream & os, const freqPulse& pulse);
-		std::string getMarkerChars(const unsigned int numPoints, unsigned int startMarkerPoints);
+		// Class Methods
+		std::string getMarkerChars(const unsigned int numPoints, unsigned int startMarkerPoints = 1);
+		std::string getWaveChars(const double samplePeriod, const double numPoints);
+		unsigned int getNumPoints(const double samplePeriod, const bool nearestHalfCycle = true);
 	private:
 		double	myFrequency;
 		double	myAmplitude;

@@ -11,7 +11,7 @@ std::ostream& operator<<(std::ostream & os, const freqPulse& pulse) {
 	return os;
 }
 
-std::string freqPulse::getMarkerChars(const unsigned int numPoints, unsigned int startMarkerPoints = 1){
+std::string freqPulse::getMarkerChars(const unsigned int numPoints, unsigned int startMarkerPoints){
 	std::string markerChars = "";
 	markerChars.reserve(numPoints+1);
 
@@ -30,4 +30,12 @@ std::string freqPulse::getMarkerChars(const unsigned int numPoints, unsigned int
 	}
 
 	return markerChars;
+}
+
+unsigned int freqPulse::getNumPoints(const double samplePeriod, const bool nearestHalfCycle) {
+	return 0;
+}
+
+std::string freqPulse::getWaveChars(const double samplePeriod, const double numPoints) {
+	return "";
 }
