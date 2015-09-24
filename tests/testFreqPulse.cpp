@@ -116,6 +116,33 @@ TEST(freqPulseMarkers, CorrectStartPoints) {
 	}
 }
 
+TEST(freqPulseGetNumPoints, ExactPoints) {
+	freqPulse testPulse(100.0, 1.0, 7.0);
+	const double samplePeriodGHz = 0.1;
+	const double samplePeriod1024MHz = 1.0/1.024;
+	unsigned int expectedGHzPointCount = 7;
+
+	EXPECT_EQ(expectedGHzPointCount, testPulse.getNumPoints(samplePeriodGHz, false));
+	
+	testPulse = freqPulse(100.0, 1.0, 130.0);
+	expectedGHzPointCount = 130;
+	unsigned int expected1024MHzPointCount = 133;
+	EXPECT_EQ(expectedGHzPointCount, testPulse.getNumPoints(samplePeriodGHz, false));
+	EXPECT_EQ(expected1024MHzPointCount, testPulse.getNumPoints(samplePeriod1024MHz, false));
+}
+
+TEST(freqPulseGetNumPoints, HalfCyclePoints) {
+	freqPulse testPulse(100.0, 1.0, 113.0);
+	const double samplePeriodGHz = 0.1;
+	const double samplePeriod1024MHz = 1.0/1.024;
+
+	unsigned int expectedCycles = 11.5;
+	unsigned int expectedGHzPts = 115;
+	unsigned int expected1024MHzPts = 117;
+	EXPECT_EQ(expectedGHzPts, testPulse.getNumPoints(samplePeriodGHz));
+	EXPECT_EQ(expected1024MHzPts, testPulse.getNumPoints(samplePeriod1024MHz)); 
+}
+
 int main(int argc, char * argv[] ) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
