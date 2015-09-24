@@ -67,6 +67,23 @@ TEST(freqPulseInsertion, CompareDefault) {
 	EXPECT_EQ(expectedResult.str(), result.str());
 }
 
+TEST(freqPulseMarkers, NoMarkers) {
+	freqPulse testPulse;
+	string expectedResult = "";
+	
+	EXPECT_EQ(expectedResult, testPulse.getMarkerChars(0,0));
+}
+
+TEST(freqPulseMarkers, ShortenStart) {
+	freqPulse testPulse;
+	string expectedResult("\0\0",2);
+
+	EXPECT_EQ(expectedResult, testPulse.getMarkerChars(2,4));
+}
+
+// Test possible marker combos on 2,1
+// Test lengths being correct
+
 int main(int argc, char * argv[] ) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

@@ -1,7 +1,9 @@
 #ifndef PULSE_TRAIN_HPP_20150819
 #define PULSE_TRAIN_HPP_20150819
 #include <iostream>
+#include <string>
 #include <queue>
+
 class freqPulse {
 	public:
 		freqPulse() {
@@ -34,6 +36,7 @@ class freqPulse {
 				&& (myMarkDuration == otherPulse.getMarkDuration()));
 		}
 		friend std::ostream & operator<<(std::ostream & os, const freqPulse& pulse);
+		std::string getMarkerChars(const unsigned int numPoints, unsigned int startMarkerPoints);
 	private:
 		double	myFrequency;
 		double	myAmplitude;
