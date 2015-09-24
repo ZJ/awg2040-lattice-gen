@@ -81,8 +81,40 @@ TEST(freqPulseMarkers, ShortenStart) {
 	EXPECT_EQ(expectedResult, testPulse.getMarkerChars(2,4));
 }
 
-// Test possible marker combos on 2,1
-// Test lengths being correct
+TEST(freqPulseMarkers, CorrectBytes) {
+	freqPulse testPulse(0, 1.0, 0, 0, false, false);
+	string expectedResult("\0\0",2);
+	EXPECT_EQ(expectedResult, testPulse.getMarkerChars(2,1));
+
+	testPulse = freqPulse(0, 1.0, 0, 0, true,  false);
+	expectedResult = string("\2\0",2);
+	EXPECT_EQ(expectedResult, testPulse.getMarkerChars(2,1));
+	
+	testPulse = freqPulse(0, 1.0, 0, 0, false, true );
+	expectedResult = string("\1\1",2);
+	EXPECT_EQ(expectedResult, testPulse.getMarkerChars(2,1));
+	
+	testPulse = freqPulse(0, 1.0, 0, 0, true,  true );
+	expectedResult = string("\3\1",2);
+	EXPECT_EQ(expectedResult, testPulse.getMarkerChars(2,1));
+}
+
+TEST(freqPulseMarkers, CorrectNumPoints) {
+	freqPulse testPulse;
+	
+	for (unsigned int expectLength = 2; expectLength < 4096;   expectLength++) {
+		EXPECT_EQ(expectLength, testPulse.getMarkerChars(expectLength, 1).length());
+	}
+}
+
+TEST(freqPulseMarkers, CorrectStartPoints) {
+	freqPulse testPulse(0, 1.0, 0, 0, true, true);
+	unsigned int numPoints = 128;
+
+	for (unsigned int startLength = 1; startLength <= numPoints; startLength++) {
+		EXPECT_EQ(startLength, testPulse.getMarkerChars(numPoints, startLength).find_last_of(string("\3")) + 1);
+	}
+}
 
 int main(int argc, char * argv[] ) {
 	::testing::InitGoogleTest(&argc, argv);
