@@ -102,14 +102,14 @@ TEST(freqPulseMarkers, CorrectBytes) {
 TEST(freqPulseMarkers, CorrectNumPoints) {
 	freqPulse testPulse;
 	
-	for (unsigned int expectLength = 2; expectLength < 4096;   expectLength++) {
+	for (unsigned int expectLength = 2; expectLength < 16;   expectLength++) {
 		EXPECT_EQ(expectLength, testPulse.getMarkerChars(expectLength, 1).length());
 	}
 }
 
 TEST(freqPulseMarkers, CorrectStartPoints) {
 	freqPulse testPulse(0, 1.0, 0, 0, true, true);
-	unsigned int numPoints = 128;
+	unsigned int numPoints = 16;
 
 	for (unsigned int startLength = 1; startLength <= numPoints; startLength++) {
 		EXPECT_EQ(startLength, testPulse.getMarkerChars(numPoints, startLength).find_last_of(string("\3")) + 1);
