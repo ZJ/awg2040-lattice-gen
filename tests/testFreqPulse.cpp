@@ -143,6 +143,18 @@ TEST(freqPulseGetNumPoints, HalfCyclePoints) {
 	EXPECT_EQ(expected1024MHzPts, testPulse.getNumPoints(samplePeriod1024MHz)); 
 }
 
+TEST(freqPulseGetWaveChars, ValuesTest) {
+	freqPulse testPulse(100.0, 1.0, 10.0);
+	const double samplePeriodGHz = 1.0;
+	const double samplePeriodFull = 1.0/1.024;
+
+	const unsigned char charsGHz[]  = {127, 202, 248, 248, 202, 127, 52, 6, 6, 52};
+	const unsigned char charsFull[] = {127, 200, 247, 249, 208, 136, 62, 11, 2, 39};
+
+	EXPECT_EQ(string((char *) charsGHz,  10), testPulse.getWaveChars(samplePeriodGHz,  10));
+	EXPECT_EQ(string((char *) charsFull, 10), testPulse.getWaveChars(samplePeriodFull, 10));
+}
+
 int main(int argc, char * argv[] ) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
