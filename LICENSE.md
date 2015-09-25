@@ -1,5 +1,5 @@
 # The MIT License (MIT)
-**Copyright © &lt;year> &lt;copyright holders>**
+**Copyright © 2015  Zach Smith**
 
 * * *
 
