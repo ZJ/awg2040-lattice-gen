@@ -118,7 +118,7 @@ TEST(freqPulseMarkers, CorrectStartPoints) {
 
 TEST(freqPulseGetNumPoints, ExactPoints) {
 	freqPulse testPulse(100.0, 1.0, 7.0);
-	const double samplePeriodGHz = 0.1;
+	const double samplePeriodGHz = 1.0;
 	const double samplePeriod1024MHz = 1.0/1.024;
 	unsigned int expectedGHzPointCount = 7;
 
@@ -133,7 +133,7 @@ TEST(freqPulseGetNumPoints, ExactPoints) {
 
 TEST(freqPulseGetNumPoints, HalfCyclePoints) {
 	freqPulse testPulse(100.0, 1.0, 113.0);
-	const double samplePeriodGHz = 0.1;
+	const double samplePeriodGHz = 1.0;
 	const double samplePeriod1024MHz = 1.0/1.024;
 
 	unsigned int expectedCycles = 11.5;
