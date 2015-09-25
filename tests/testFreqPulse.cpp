@@ -143,16 +143,40 @@ TEST(freqPulseGetNumPoints, HalfCyclePoints) {
 	EXPECT_EQ(expected1024MHzPts, testPulse.getNumPoints(samplePeriod1024MHz)); 
 }
 
-TEST(freqPulseGetWaveChars, ValuesTest) {
+TEST(freqPulseGetWaveChars, FullAmplitudeNoPhase) {
 	freqPulse testPulse(100.0, 1.0, 10.0);
 	const double samplePeriodGHz = 1.0;
 	const double samplePeriodFull = 1.0/1.024;
 
-	const unsigned char charsGHz[]  = {127, 202, 248, 248, 202, 127, 52, 6, 6, 52};
-	const unsigned char charsFull[] = {127, 200, 247, 249, 208, 136, 62, 11, 2, 39};
+	unsigned char charsGHz[]  = {127, 202, 248, 248, 202, 127, 52, 6, 6, 52};
+	unsigned char charsFull[] = {127, 200, 247, 249, 208, 136, 62, 11, 2, 39};
 
 	EXPECT_EQ(string((char *) charsGHz,  10), testPulse.getWaveChars(samplePeriodGHz,  10));
 	EXPECT_EQ(string((char *) charsFull, 10), testPulse.getWaveChars(samplePeriodFull, 10));
+}
+
+TEST(freqPulseGetWaveChars, FullAmplitudeWithPhase) {
+	freqPulse testPulse = freqPulse(150.0, 1.0, 10.0, 0.78539816339744830962);
+	const double samplePeriodGHz = 1.0;
+	const double samplePeriodFull = 1.0/1.024;
+
+	unsigned char phaseGHz[]  = {217, 252, 185, 69, 2, 37, 147, 240, 240, 147};
+	unsigned char phaseFull[] = {217, 253, 190, 77, 4, 28, 130, 230, 249, 171};
+
+	EXPECT_EQ(string((char *) phaseGHz,  10), testPulse.getWaveChars(samplePeriodGHz,  10));
+	EXPECT_EQ(string((char *) phaseFull, 10), testPulse.getWaveChars(samplePeriodFull, 10));
+}
+
+TEST(freqPulseGetWaveChars, HalfAmplitude) {
+	freqPulse testPulse = freqPulse(133.0, 0.5, 10.0);
+	const double samplePeriodGHz = 1.0;
+	const double samplePeriodFull = 1.0/1.024;
+
+	unsigned char phaseGHz[]  = {127, 174, 190, 165, 114, 72, 66, 100, 152, 187};
+	unsigned char phaseFull[] = {127, 173, 190, 168, 119, 76, 65,  93, 142, 182};
+
+	EXPECT_EQ(string((char *) phaseGHz,  10), testPulse.getWaveChars(samplePeriodGHz,  10));
+	EXPECT_EQ(string((char *) phaseFull, 10), testPulse.getWaveChars(samplePeriodFull, 10));
 }
 
 int main(int argc, char * argv[] ) {
