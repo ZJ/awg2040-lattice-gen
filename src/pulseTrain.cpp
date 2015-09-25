@@ -41,6 +41,6 @@ unsigned int freqPulse::getNumPoints(const double samplePeriod, const bool neare
 }
 
 
-std::string freqPulse::getWaveChars(const double samplePeriod, const double numPoints) {
+std::string freqPulse::getWaveChars(const double samplePeriod, const unsigned int numPoints) {
 	return "";
 }
