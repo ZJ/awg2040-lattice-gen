@@ -1,6 +1,9 @@
 language: c
 compiler: gcc
 sudo: false
+env:
+  global:
+    - CTEST_OUTPUT_ON_FAILURE=true
 addons:
   apt:
     packages:
