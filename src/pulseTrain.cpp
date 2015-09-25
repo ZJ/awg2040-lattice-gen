@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cmath>
 
 #include "pulseTrain.hpp"
 
@@ -33,8 +34,12 @@ std::string freqPulse::getMarkerChars(const unsigned int numPoints, unsigned int
 }
 
 unsigned int freqPulse::getNumPoints(const double samplePeriod, const bool nearestHalfCycle) {
-	return 0;
+	if (! nearestHalfCycle) return ((unsigned int) myDuration/samplePeriod);
+
+	double halfCycles = round(myDuration * myFrequency * 2.0 * 0.001 /*ns*MHz*/) / 2.0;
+	return (unsigned int) floor(halfCycles * (1000.0/myFrequency)/samplePeriod);
 }
+
 
 std::string freqPulse::getWaveChars(const double samplePeriod, const double numPoints) {
 	return "";
