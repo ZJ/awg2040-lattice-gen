@@ -42,5 +42,15 @@ unsigned int freqPulse::getNumPoints(const double samplePeriod, const bool neare
 
 
 std::string freqPulse::getWaveChars(const double samplePeriod, const unsigned int numPoints) {
-	return "";
+	unsigned char waveBuffer[numPoints];
+	const double TwoPi = 6.28318530717958647692; // NOT tau, that's just wrong
+	const double phasePerSample = TwoPi * myFrequency * samplePeriod * 0.001 /* ns * MHz*/;
+
+	for (unsigned int i = 0; i < numPoints; i++) {
+		static double point;
+		point = 127.0  + (127.0 * myAmplitude * sin(phasePerSample * ((double) i) + myPhase));
+		waveBuffer[i] = (unsigned char) round(point);
+	}
+
+	return std::string((char *) waveBuffer, numPoints);
 }
