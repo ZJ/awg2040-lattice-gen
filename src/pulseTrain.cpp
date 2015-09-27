@@ -54,3 +54,18 @@ std::string freqPulse::getWaveChars(const double samplePeriod, const unsigned in
 
 	return std::string((char *) waveBuffer, numPoints);
 }
+
+std::string pulseTrain::getMarkerChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle, const unsigned int startMarkerPoints) {
+	// STUB
+	return "";
+}
+
+std::string pulseTrain::getWaveChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle) {
+	// STUB
+	return "";
+}
+
+unsigned int pulseTrain::getNumPoints(const double samplePeriod, const bool nearestHalfCycle) {
+	// STUB
+	return 0;
+}

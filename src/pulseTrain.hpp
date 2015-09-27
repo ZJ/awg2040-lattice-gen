@@ -63,6 +63,10 @@ class pulseTrain {
 		inline freqPulse& front() {return myPulses.front();};
 		inline bool empty() const {return myPulses.empty();};
 		inline std::vector<freqPulse>::size_type size() const {return myPulses.size();};
+		// Class Methods
+		std::string getMarkerChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle = true, const unsigned int startMarkerPoints = 1);
+		std::string getWaveChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle = true);
+		unsigned int getNumPoints(const double samplePeriod, const bool nearestHalfCycle = true);
 		// Accessors
 		inline std::queue<freqPulse> getPulses() const {return myPulses;};
 		inline double getShift() const {return myCyclicShift;};
