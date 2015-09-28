@@ -13,8 +13,8 @@ class defaultPulseTrain : public ::testing::Test {
 class filledPulseTrain : public ::testing::Test {
 	protected:
 	virtual void SetUp() {
-		firstPulse = freqPulse(10, 20, 30, true, true);
-		secondPulse = freqPulse(1, 2, 3, false, true);
+		firstPulse = freqPulse(10, 20, 30, 0.0, true, true);
+		secondPulse = freqPulse(1, 2, 3, 0.0, false, true);
 		initialQueue.push_back(firstPulse);
 		initialQueue.push_back(secondPulse);
 		initialShift = 3.14;
@@ -30,7 +30,7 @@ class filledPulseTrain : public ::testing::Test {
 class pulseTrainOutputs : public ::testing::Test {
 	protected:
 	pulseTrainOutputs() :
-		firstPulse(freqPulse(100, 1.0, 10, true, false)),
+		firstPulse(freqPulse(100, 1.0, 10, 0.0, true, false)),
 		secondPulse(freqPulse(130, 1.0, 10, 1.57079632679, false, true)),
 		samplePeriodGHz(1.0),
 		samplePeriodFull(1.0/1.024),
