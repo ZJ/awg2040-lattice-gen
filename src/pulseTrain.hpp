@@ -2,7 +2,7 @@
 #define PULSE_TRAIN_HPP_20150819
 #include <iostream>
 #include <string>
-#include <queue>
+#include <deque>
 #include <cmath>
 
 class freqPulse {
@@ -53,26 +53,26 @@ class freqPulse {
 class pulseTrain {
 	public:
 		// Constructors
-		inline pulseTrain(double shift=0, std::queue<freqPulse> pulseQueue=std::queue<freqPulse>()) {
+		inline pulseTrain(double shift=0, std::deque<freqPulse> pulseQueue=std::deque<freqPulse>()) {
 			myCyclicShift  = shift;
 			myPulses = pulseQueue;
 		};
-		// Restricted set of queue methods for freqPulse queue
-		inline void pop() {myPulses.pop();};
-		inline void pushPulse(const freqPulse& toPush) {myPulses.push(toPush);};
+		// Restricted set of deque methods for freqPulse deque
+		inline void pop() {myPulses.pop_front();};
+		inline void pushPulse(const freqPulse& toPush) {myPulses.push_back(toPush);};
 		inline freqPulse& front() {return myPulses.front();};
 		inline bool empty() const {return myPulses.empty();};
-		inline std::vector<freqPulse>::size_type size() const {return myPulses.size();};
+		inline std::deque<freqPulse>::size_type size() const {return myPulses.size();};
 		// Class Methods
 		std::string getMarkerChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle = true, const unsigned int startMarkerPoints = 1);
 		std::string getWaveChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle = true);
 		unsigned int getNumPoints(const double samplePeriod, const bool nearestHalfCycle = true);
 		// Accessors
-		inline std::queue<freqPulse> getPulses() const {return myPulses;};
+		inline std::deque<freqPulse> getPulses() const {return myPulses;};
 		inline double getShift() const {return myCyclicShift;};
 		inline void setShift(const double shift) {myCyclicShift=shift;};
 	private:
 		double myCyclicShift;
-		std::queue<freqPulse> myPulses;
+		std::deque<freqPulse> myPulses;
 };
 #endif //PULSE_TRAIN_HPP_20150819

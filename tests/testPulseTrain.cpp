@@ -1,4 +1,4 @@
-#include <queue>
+#include <deque>
 using namespace std;
 
 #include <gtest/gtest.h>
@@ -15,8 +15,8 @@ class filledPulseTrain : public ::testing::Test {
 	virtual void SetUp() {
 		firstPulse = freqPulse(10, 20, 30, true, true);
 		secondPulse = freqPulse(1, 2, 3, false, true);
-		initialQueue.push(firstPulse);
-		initialQueue.push(secondPulse);
+		initialQueue.push_back(firstPulse);
+		initialQueue.push_back(secondPulse);
 		initialShift = 3.14;
 
 		testTrain = pulseTrain(initialShift, initialQueue);
@@ -24,7 +24,7 @@ class filledPulseTrain : public ::testing::Test {
 	double initialShift;
 	pulseTrain testTrain;
 	freqPulse firstPulse, secondPulse;
-	std::queue<freqPulse> initialQueue;
+	std::deque<freqPulse> initialQueue;
 };
 
 class pulseTrainOutputs : public ::testing::Test {
@@ -56,7 +56,7 @@ class pulseTrainOutputs : public ::testing::Test {
 };
 
 TEST_F(defaultPulseTrain, CorrectContents) {
-	queue<freqPulse> emptyPulseQueue;
+	deque<freqPulse> emptyPulseQueue;
 
 	EXPECT_EQ(0, myTrain.getShift());
 	EXPECT_EQ(emptyPulseQueue, myTrain.getPulses());
@@ -71,14 +71,14 @@ TEST_F(filledPulseTrain, front) {
 }
 
 TEST_F(filledPulseTrain, pop) {
-	initialQueue.pop();
+	initialQueue.pop_front();
 	testTrain.pop();
 	EXPECT_EQ(initialQueue, testTrain.getPulses());
 }
 
 TEST_F(filledPulseTrain, push) {
 	freqPulse toPush(3.1,4,5,false,true);
-	initialQueue.push(toPush);
+	initialQueue.push_back(toPush);
 	testTrain.pushPulse(toPush);;
 	EXPECT_EQ(initialQueue, testTrain.getPulses());
 }
@@ -86,9 +86,9 @@ TEST_F(filledPulseTrain, push) {
 TEST_F(filledPulseTrain, empty) {
 	EXPECT_FALSE(testTrain.empty());
 	EXPECT_EQ(initialQueue.empty(), testTrain.empty());
-	initialQueue.pop();
+	initialQueue.pop_front();
 	testTrain.pop();
-	initialQueue.pop();
+	initialQueue.pop_front();
 	testTrain.pop();
 	EXPECT_TRUE(testTrain.empty());
 	EXPECT_EQ(initialQueue.empty(), testTrain.empty());
@@ -96,15 +96,15 @@ TEST_F(filledPulseTrain, empty) {
 
 TEST(pulseTrainExplicitConstructor, JustDelay) {
 	pulseTrain testTrain(1.0);
-	queue<freqPulse> emptyPulseQueue;
+	deque<freqPulse> emptyPulseQueue;
 
 	EXPECT_EQ(1.0, testTrain.getShift());
 	EXPECT_EQ(emptyPulseQueue, testTrain.getPulses());
 }
 
 TEST(pulseTrainExplicitConstructor, FullConstructor) {
-	queue<freqPulse> pulseQueue;
-	pulseQueue.push(freqPulse());
+	deque<freqPulse> pulseQueue;
+	pulseQueue.push_back(freqPulse());
 
 	pulseTrain testTrain(1.0, pulseQueue);
 
