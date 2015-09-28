@@ -66,6 +66,11 @@ std::string pulseTrain::getWaveChars(const double samplePeriod, const unsigned i
 }
 
 unsigned int pulseTrain::getNumPoints(const double samplePeriod, const bool nearestHalfCycle) {
-	// STUB
-	return 0;
+	unsigned int totalPoints = 0;
+
+	for (std::deque<freqPulse>::iterator thisPulse = myPulses.begin(); thisPulse != myPulses.end(); thisPulse++) {
+		totalPoints += thisPulse->getNumPoints(samplePeriod, nearestHalfCycle);
+	}
+
+	return totalPoints;
 }
