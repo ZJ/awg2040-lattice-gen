@@ -86,8 +86,33 @@ std::string pulseTrain::getMarkerChars(const double samplePeriod, const unsigned
 }
 
 std::string pulseTrain::getWaveChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle) {
-	// STUB
-	return "";
+	std::string firstString  = "";
+	std::string secondString = "";
+	
+	firstString.reserve(numPoints+1);
+	secondString.reserve(numPoints+1);
+
+	int shiftAmount = ((int) round(myCyclicShift/samplePeriod));
+	int firstLength = ((shiftAmount >= 0) ? (numPoints - shiftAmount) : (-shiftAmount))%numPoints; 
+	
+	std::deque<freqPulse>::iterator thisPulse = myPulses.begin();
+	for (thisPulse = myPulses.begin(); thisPulse != myPulses.end(); thisPulse++) {
+		firstString += thisPulse->getWaveChars(samplePeriod, thisPulse->getNumPoints(samplePeriod, nearestHalfCycle));
+		if ( firstString.length() > firstLength ) {
+			secondString = firstString.substr(firstLength);
+			firstString = firstString.erase(firstLength);
+			thisPulse++;
+			break;
+		}
+	}
+	
+	for (thisPulse; thisPulse != myPulses.end(); thisPulse++) {
+		secondString += thisPulse->getWaveChars(samplePeriod, thisPulse->getNumPoints(samplePeriod, nearestHalfCycle));
+	}
+
+	secondString += firstString;
+
+	return secondString;
 }
 
 unsigned int pulseTrain::getNumPoints(const double samplePeriod, const bool nearestHalfCycle) {
