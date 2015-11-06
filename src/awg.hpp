@@ -7,20 +7,21 @@
 
 class awg {
 	public:
+		pulseTrain	outputPulses;
 		// Constructor
 		awg(
 			pulseTrain outputPulses=pulseTrain(),
 			unsigned long baudRate=19200,
 			double clockFrequency=1024.0,
-			std::string COMPort=std::string("COM1"),
+			std::string comPort=std::string("COM1"),
 			std::string waveName=std::string("awgWave.txt")
 		)
-			: _outputPulses(outputPulses)
+			: outputPulses(outputPulses)
 			, _baudRate(baudRate)
 			, _clockFrequency(clockFrequency)
 			, _sampleRate(1000.0/clockFrequency)
 			, _waveName(waveName)
-			, _COMPort(COMPort)
+			, _comPort(comPort)
 		{ };
 		// Write Accessors
 		inline void clockFrequency(double newFreq) {
@@ -35,13 +36,13 @@ class awg {
 			_sampleRate     = newSampleRate;
 			_clockFrequency = 1000.0/newSampleRate;
 		}
-		inline void COMPort(const std::string newCOM) {
-			_COMPort = newCOM;
+		inline void comPort(const std::string newCOM) {
+			_comPort = newCOM;
 		}
-		inline void COMPort(const unsigned int newCOMNum) {
+		inline void comPort(const unsigned int newCOMNum) {
 			char buffer[16];
 			snprintf(buffer, 16, "COM%u", newCOMNum);
-			_COMPort = buffer;
+			_comPort = buffer;
 		}
 		inline void waveName(const std::string newName) {
 			_waveName = newName;
@@ -49,23 +50,18 @@ class awg {
 		inline void baudRate(const unsigned int newBaudRate) {
 			_baudRate = newBaudRate;
 		}
-		inline void outputPulses(const pulseTrain newPulseTrain) {
-			_outputPulses = newPulseTrain;
-		}
 		// Read Accessors
 		inline unsigned long	baudRate()	{return _baudRate;}
 		inline std::string	waveName()	{return _waveName;}
-		inline std::string	COMPort()	{return _COMPort;}
+		inline std::string	comPort()	{return _comPort;}
 		inline double	clockFrequency()	{return _clockFrequency;}
 		inline double	sampleRate()	{return _sampleRate;}
-		inline pulseTrain	outputPulses()	{return _outputPulses;}
 	private:
-		pulseTrain    _outputPulses;
 		unsigned long _baudRate;
 		double        _clockFrequency;
 		double        _sampleRate;
 		std::string   _waveName;
-		std::string   _COMPort;
+		std::string   _comPort;
 };
 
 #endif //AWG_2015_09_28
