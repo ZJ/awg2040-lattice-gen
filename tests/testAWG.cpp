@@ -4,14 +4,17 @@
 
 #include "../src/pulseTrain.hpp"
 
+TEST(AwgClass, ComPort) {
+	awg testAwg;
 
-class AWGConstructors : public ::testing::Test {
-	protected:
-};
+	EXPECT_EQ(std::string("COM1"),testAwg.comPort());
 
-class AWGAcessors : public ::testing::Test {
-	protected:
-};
+	testAwg.comPort(2);
+	EXPECT_EQ(std::string("COM2"),testAwg.comPort());
+
+	testAwg.comPort("com1");
+	EXPECT_EQ(std::string("com1"),testAwg.comPort());
+}
 
 int main(int argc, char * argv[] ) {
 	::testing::InitGoogleTest(&argc, argv);
