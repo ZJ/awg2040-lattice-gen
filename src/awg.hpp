@@ -56,6 +56,8 @@ class awg {
 		inline std::string	comPort()	{return _comPort;}
 		inline double	clockFrequency()	{return _clockFrequency;}
 		inline double	sampleRate()	{return _sampleRate;}
+		// Other Methods
+		std::string programmingString();
 	private:
 		unsigned long _baudRate;
 		double        _clockFrequency;
