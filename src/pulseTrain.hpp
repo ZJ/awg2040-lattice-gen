@@ -8,71 +8,71 @@
 class freqPulse {
 	public:
 		freqPulse() {
-			myFrequency = myDuration = myPhase = 0;
-			myAmplitude = 1.0;
-			myMarkStart = myMarkDuration = false;
+			_frequency = _duration = _phase = 0;
+			_amplitude = 1.0;
+			_markStart = _markDuration = false;
 		}
 		freqPulse(double setFreq, double setAmp, double setDur, double setPhase=0.0, bool setStart=false, bool setMarkAll=false) {
-			myFrequency = setFreq;
-			myAmplitude = setAmp;
-			myDuration  = setDur;
-			myPhase     = setPhase;
-			myMarkStart = setStart;
-			myMarkDuration = setMarkAll;
+			_frequency = setFreq;
+			_amplitude = setAmp;
+			_duration  = setDur;
+			_phase     = setPhase;
+			_markStart = setStart;
+			_markDuration = setMarkAll;
 		}
 		// Read Accessors
-		inline double	getFrequency()    const {return myFrequency;}
-		inline double	getAmplitude()    const {return myAmplitude;}
-		inline double	getDuration()     const {return myDuration;}
-		inline double   getPhase()        const {return myPhase;}
-		inline bool	getMarkStart()    const {return myMarkStart;}
-		inline bool	getMarkDuration() const {return myMarkDuration;}
+		inline double	frequency()    const {return _frequency;}
+		inline double	amplitude()    const {return _amplitude;}
+		inline double	duration()     const {return _duration;}
+		inline double   phase()        const {return _phase;}
+		inline bool	markStart()    const {return _markStart;}
+		inline bool	markDuration() const {return _markDuration;}
 		// Overload Operators
 		bool operator ==(const freqPulse & otherPulse) const{
-			return ((myFrequency == otherPulse.getFrequency()) 
-				&& (myAmplitude == otherPulse.getAmplitude())
-				&& (myDuration == otherPulse.getDuration())
-				&& (myPhase == otherPulse.getPhase())
-				&& (myMarkStart == otherPulse.getMarkStart())
-				&& (myMarkDuration == otherPulse.getMarkDuration()));
+			return ((_frequency == otherPulse.frequency()) 
+				&& (_amplitude == otherPulse.amplitude())
+				&& (_duration == otherPulse.duration())
+				&& (_phase == otherPulse.phase())
+				&& (_markStart == otherPulse.markStart())
+				&& (_markDuration == otherPulse.markDuration()));
 		}
 		friend std::ostream & operator<<(std::ostream & os, const freqPulse& pulse);
 		// Class Methods
-		std::string getMarkerChars(const unsigned int numPoints, unsigned int startMarkerPoints = 1);
-		std::string getWaveChars(const double samplePeriod, const unsigned int numPoints);
-		unsigned int getNumPoints(const double samplePeriod, const bool nearestHalfCycle = true);
+		std::string markerChars(const unsigned int numPoints, unsigned int startMarkerPoints = 1);
+		std::string waveChars(const double samplePeriod, const unsigned int numPoints);
+		unsigned int numPoints(const double samplePeriod, const bool nearestHalfCycle = true);
 	private:
-		double	myFrequency;
-		double	myAmplitude;
-		double	myDuration;
-		double  myPhase;
-		bool	myMarkStart;
-		bool	myMarkDuration;
+		double	_frequency;
+		double	_amplitude;
+		double	_duration;
+		double  _phase;
+		bool	_markStart;
+		bool	_markDuration;
 };
 
 class pulseTrain {
 	public:
 		// Constructors
 		inline pulseTrain(double shift=0, std::deque<freqPulse> pulseQueue=std::deque<freqPulse>()) {
-			myCyclicShift  = shift;
-			myPulses = pulseQueue;
+			_cyclicShift  = shift;
+			_pulses = pulseQueue;
 		};
 		// Restricted set of deque methods for freqPulse deque
-		inline void pop() {myPulses.pop_front();};
-		inline void pushPulse(const freqPulse& toPush) {myPulses.push_back(toPush);};
-		inline freqPulse& front() {return myPulses.front();};
-		inline bool empty() const {return myPulses.empty();};
-		inline std::deque<freqPulse>::size_type size() const {return myPulses.size();};
+		inline void pop() {_pulses.pop_front();};
+		inline void pushPulse(const freqPulse& toPush) {_pulses.push_back(toPush);};
+		inline freqPulse& front() {return _pulses.front();};
+		inline bool empty() const {return _pulses.empty();};
+		inline std::deque<freqPulse>::size_type size() const {return _pulses.size();};
 		// Class Methods
-		std::string getMarkerChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle = true, const unsigned int startMarkerPoints = 1);
-		std::string getWaveChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle = true);
-		unsigned int getNumPoints(const double samplePeriod, const bool nearestHalfCycle = true);
+		std::string markerChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle = true, const unsigned int startMarkerPoints = 1);
+		std::string waveChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle = true);
+		unsigned int numPoints(const double samplePeriod, const bool nearestHalfCycle = true);
 		// Accessors
-		inline std::deque<freqPulse> getPulses() const {return myPulses;};
-		inline double getShift() const {return myCyclicShift;};
-		inline void setShift(const double shift) {myCyclicShift=shift;};
+		inline std::deque<freqPulse> pulses() const {return _pulses;};
+		inline double shift() const {return _cyclicShift;};
+		inline void shift(const double shift) {_cyclicShift=shift;};
 	private:
-		double myCyclicShift;
-		std::deque<freqPulse> myPulses;
+		double _cyclicShift;
+		std::deque<freqPulse> _pulses;
 };
 #endif //PULSE_TRAIN_HPP_20150819

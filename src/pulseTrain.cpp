@@ -5,25 +5,25 @@
 #include "pulseTrain.hpp"
 
 std::ostream& operator<<(std::ostream & os, const freqPulse& pulse) {
-	os << "Pulse " << pulse.myFrequency << "MHz for " << pulse.myDuration << "ns with amplitude of " << pulse.myAmplitude;
-	os << " and phase " << pulse.myPhase << "*pi";
-	os << (pulse.myMarkStart ? ", with " : ", without ") << "initial marker and ";
-	os << (pulse.myMarkDuration ? "with " : "without ") << "duration marker.";
+	os << "Pulse " << pulse._frequency << "MHz for " << pulse._duration << "ns with amplitude of " << pulse._amplitude;
+	os << " and phase " << pulse._phase << "*pi";
+	os << (pulse._markStart ? ", with " : ", without ") << "initial marker and ";
+	os << (pulse._markDuration ? "with " : "without ") << "duration marker.";
 	return os;
 }
 
-std::string freqPulse::getMarkerChars(const unsigned int numPoints, unsigned int startMarkerPoints){
+std::string freqPulse::markerChars(const unsigned int numPoints, unsigned int startMarkerPoints){
 	std::string markerChars = "";
 	markerChars.reserve(numPoints+1);
 
 	if ( startMarkerPoints > numPoints ) startMarkerPoints = numPoints;
 
-	if ( ! myMarkStart ) {
-		unsigned char durationOnly = (myMarkDuration ? 0x01 : 0x00);
+	if ( ! _markStart ) {
+		unsigned char durationOnly = (_markDuration ? 0x01 : 0x00);
 		for (unsigned int i = 0; i < numPoints; i++) markerChars += durationOnly;
 	} else {
-		unsigned char startPart	= (myMarkDuration ? 0x03 : 0x02);
-		unsigned char endPart	= (myMarkDuration ? 0x01 : 0x00);
+		unsigned char startPart	= (_markDuration ? 0x03 : 0x02);
+		unsigned char endPart	= (_markDuration ? 0x01 : 0x00);
 		unsigned int i;
 
 		for (i = 0; i < startMarkerPoints; i++) markerChars += startPart;
@@ -33,41 +33,41 @@ std::string freqPulse::getMarkerChars(const unsigned int numPoints, unsigned int
 	return markerChars;
 }
 
-unsigned int freqPulse::getNumPoints(const double samplePeriod, const bool nearestHalfCycle) {
-	if (! nearestHalfCycle) return ((unsigned int) myDuration/samplePeriod);
+unsigned int freqPulse::numPoints(const double samplePeriod, const bool nearestHalfCycle) {
+	if (! nearestHalfCycle) return ((unsigned int) _duration/samplePeriod);
 
-	double halfCycles = round(myDuration * myFrequency * 2.0 * 0.001 /*ns*MHz*/) / 2.0;
-	return (unsigned int) floor(halfCycles * (1000.0/myFrequency)/samplePeriod);
+	double halfCycles = round(_duration * _frequency * 2.0 * 0.001 /*ns*MHz*/) / 2.0;
+	return (unsigned int) floor(halfCycles * (1000.0/_frequency)/samplePeriod);
 }
 
 
-std::string freqPulse::getWaveChars(const double samplePeriod, const unsigned int numPoints) {
+std::string freqPulse::waveChars(const double samplePeriod, const unsigned int numPoints) {
 	unsigned char waveBuffer[numPoints];
 	const double TwoPi = 6.28318530717958647692; // NOT tau, that's just wrong
-	const double phasePerSample = TwoPi * myFrequency * samplePeriod * 0.001 /* ns * MHz*/;
+	const double phasePerSample = TwoPi * _frequency * samplePeriod * 0.001 /* ns * MHz*/;
 
 	for (unsigned int i = 0; i < numPoints; i++) {
 		static double point;
-		point = 127.0  + (127.0 * myAmplitude * sin(phasePerSample * ((double) i) + myPhase));
+		point = 127.0  + (127.0 * _amplitude * sin(phasePerSample * ((double) i) + _phase));
 		waveBuffer[i] = (unsigned char) round(point);
 	}
 
 	return std::string((char *) waveBuffer, numPoints);
 }
 
-std::string pulseTrain::getMarkerChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle, const unsigned int startMarkerPoints) {
+std::string pulseTrain::markerChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle, const unsigned int startMarkerPoints) {
 	std::string firstString  = "";
 	std::string secondString = "";
 	
 	firstString.reserve(numPoints+1);
 	secondString.reserve(numPoints+1);
 
-	int shiftAmount = ((int) round(myCyclicShift/samplePeriod));
+	int shiftAmount = ((int) round(_cyclicShift/samplePeriod));
 	int firstLength = ((shiftAmount >= 0) ? (numPoints - shiftAmount) : (-shiftAmount))%numPoints; 
 	
-	std::deque<freqPulse>::iterator thisPulse = myPulses.begin();
-	for (thisPulse = myPulses.begin(); thisPulse != myPulses.end(); thisPulse++) {
-		firstString += thisPulse->getMarkerChars(thisPulse->getNumPoints(samplePeriod, nearestHalfCycle), startMarkerPoints);
+	std::deque<freqPulse>::iterator thisPulse = _pulses.begin();
+	for (thisPulse = _pulses.begin(); thisPulse != _pulses.end(); thisPulse++) {
+		firstString += thisPulse->markerChars(thisPulse->numPoints(samplePeriod, nearestHalfCycle), startMarkerPoints);
 		if ( firstString.length() > firstLength ) {
 			secondString = firstString.substr(firstLength);
 			firstString = firstString.erase(firstLength);
@@ -76,8 +76,8 @@ std::string pulseTrain::getMarkerChars(const double samplePeriod, const unsigned
 		}
 	}
 	
-	for (thisPulse; thisPulse != myPulses.end(); thisPulse++) {
-		secondString += thisPulse->getMarkerChars(thisPulse->getNumPoints(samplePeriod, nearestHalfCycle), startMarkerPoints);
+	for (thisPulse; thisPulse != _pulses.end(); thisPulse++) {
+		secondString += thisPulse->markerChars(thisPulse->numPoints(samplePeriod, nearestHalfCycle), startMarkerPoints);
 	}
 
 	secondString += firstString;
@@ -85,19 +85,19 @@ std::string pulseTrain::getMarkerChars(const double samplePeriod, const unsigned
 	return secondString;
 }
 
-std::string pulseTrain::getWaveChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle) {
+std::string pulseTrain::waveChars(const double samplePeriod, const unsigned int numPoints, const bool nearestHalfCycle) {
 	std::string firstString  = "";
 	std::string secondString = "";
 	
 	firstString.reserve(numPoints+1);
 	secondString.reserve(numPoints+1);
 
-	int shiftAmount = ((int) round(myCyclicShift/samplePeriod));
+	int shiftAmount = ((int) round(_cyclicShift/samplePeriod));
 	int firstLength = ((shiftAmount >= 0) ? (numPoints - shiftAmount) : (-shiftAmount))%numPoints; 
 	
-	std::deque<freqPulse>::iterator thisPulse = myPulses.begin();
-	for (thisPulse = myPulses.begin(); thisPulse != myPulses.end(); thisPulse++) {
-		firstString += thisPulse->getWaveChars(samplePeriod, thisPulse->getNumPoints(samplePeriod, nearestHalfCycle));
+	std::deque<freqPulse>::iterator thisPulse = _pulses.begin();
+	for (thisPulse = _pulses.begin(); thisPulse != _pulses.end(); thisPulse++) {
+		firstString += thisPulse->waveChars(samplePeriod, thisPulse->numPoints(samplePeriod, nearestHalfCycle));
 		if ( firstString.length() > firstLength ) {
 			secondString = firstString.substr(firstLength);
 			firstString = firstString.erase(firstLength);
@@ -106,8 +106,8 @@ std::string pulseTrain::getWaveChars(const double samplePeriod, const unsigned i
 		}
 	}
 	
-	for (thisPulse; thisPulse != myPulses.end(); thisPulse++) {
-		secondString += thisPulse->getWaveChars(samplePeriod, thisPulse->getNumPoints(samplePeriod, nearestHalfCycle));
+	for (thisPulse; thisPulse != _pulses.end(); thisPulse++) {
+		secondString += thisPulse->waveChars(samplePeriod, thisPulse->numPoints(samplePeriod, nearestHalfCycle));
 	}
 
 	secondString += firstString;
@@ -115,11 +115,11 @@ std::string pulseTrain::getWaveChars(const double samplePeriod, const unsigned i
 	return secondString;
 }
 
-unsigned int pulseTrain::getNumPoints(const double samplePeriod, const bool nearestHalfCycle) {
+unsigned int pulseTrain::numPoints(const double samplePeriod, const bool nearestHalfCycle) {
 	unsigned int totalPoints = 0;
 
-	for (std::deque<freqPulse>::iterator thisPulse = myPulses.begin(); thisPulse != myPulses.end(); thisPulse++) {
-		totalPoints += thisPulse->getNumPoints(samplePeriod, nearestHalfCycle);
+	for (std::deque<freqPulse>::iterator thisPulse = _pulses.begin(); thisPulse != _pulses.end(); thisPulse++) {
+		totalPoints += thisPulse->numPoints(samplePeriod, nearestHalfCycle);
 	}
 
 	return totalPoints;
