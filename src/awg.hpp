@@ -14,12 +14,14 @@ class awg {
 			unsigned long baudRate=19200,
 			double clockFrequency=1024.0,
 			std::string comPort=std::string("COM1"),
-			std::string waveName=std::string("awgWave.txt")
+			std::string waveName=std::string("awgWave.txt"),
+			double startPulseLength=10.0
 		)
 			: outputPulses(outputPulses)
 			, _baudRate(baudRate)
 			, _clockFrequency(clockFrequency)
 			, _sampleRate(1000.0/clockFrequency)
+			, _startPulseLength(startPulseLength)
 			, _waveName(waveName)
 			, _comPort(comPort)
 		{ };
@@ -50,18 +52,23 @@ class awg {
 		inline void baudRate(const unsigned int newBaudRate) {
 			_baudRate = newBaudRate;
 		}
+		inline void startPulseLength(double newStartPulseLength) {
+			_startPulseLength = newStartPulseLength;
+		}
 		// Read Accessors
 		inline unsigned long	baudRate()	{return _baudRate;}
 		inline std::string	waveName()	{return _waveName;}
 		inline std::string	comPort()	{return _comPort;}
 		inline double	clockFrequency()	{return _clockFrequency;}
 		inline double	sampleRate()	{return _sampleRate;}
+		inline double	startPulseLength()	{return _startPulseLength;}
 		// Other Methods
 		std::string programmingString();
 	private:
 		unsigned long _baudRate;
 		double        _clockFrequency;
 		double        _sampleRate;
+		double        _startPulseLength;
 		std::string   _waveName;
 		std::string   _comPort;
 };

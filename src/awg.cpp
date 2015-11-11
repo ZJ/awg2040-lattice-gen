@@ -9,7 +9,7 @@ std::string awg::programmingString() {
 	// Load up our points in temp buffers
 	unsigned long numPoints = outputPulses.getNumPoints(_sampleRate, true);
 	std::string curveString = outputPulses.getWaveChars(_sampleRate, numPoints, true);
-	std::string markerString = outputPulses.getMarkerChars(_sampleRate, numPoints, true, 1);
+	std::string markerString = outputPulses.getMarkerChars(_sampleRate, numPoints, true, round(_startPulseLength/_sampleRate));
 	char buffer[128];
 	unsigned int charLength = sprintf(buffer, "%lu", numPoints);
 	sprintf(buffer, "#%u%lu", charLength, numPoints);

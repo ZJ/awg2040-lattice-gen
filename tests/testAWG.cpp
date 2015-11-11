@@ -24,8 +24,14 @@ TEST(AwgClass, ProgrammingString) {
 	testTrain.pushPulse(testPulse);
 
 	awg testAwg(testTrain, 19200, 1000.0, "COM42", "testName.txt");
+	testAwg.startPulseLength(1.0);
 	const std::string expectedProgramming(S("DATA:DESTINATION \"testName.txt\"\nDATA:WIDTH 1\nCURVE #15\x7F\x7F\x7F\x7F\x7F\nMARKER:DATA #15\x2\0\0\0\0\nCLOCK:FREQUENCY 1000.000000MHz\nCH1:WAVEFORM \"testName.txt\"\n"));
 	EXPECT_EQ(expectedProgramming, testAwg.programmingString());
+
+	const std::string expectedProgramming2(S("DATA:DESTINATION \"testName.txt\"\nDATA:WIDTH 1\nCURVE #15\x7F\x7F\x7F\x7F\x7F\nMARKER:DATA #15\x2\2\2\0\0\nCLOCK:FREQUENCY 1000.000000MHz\nCH1:WAVEFORM \"testName.txt\"\n"));
+	testAwg.startPulseLength(2.7);
+	EXPECT_EQ(expectedProgramming2, testAwg.programmingString());
+
 }
 
 int main(int argc, char * argv[] ) {
