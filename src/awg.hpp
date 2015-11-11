@@ -38,7 +38,7 @@ class awg {
 			_sampleRate     = newSampleRate;
 			_clockFrequency = 1000.0/newSampleRate;
 		}
-		inline void comPort(const std::string newCOM) {
+		inline void comPort(const std::string &newCOM) {
 			_comPort = newCOM;
 		}
 		inline void comPort(const unsigned int newCOMNum) {
@@ -46,7 +46,7 @@ class awg {
 			snprintf(buffer, 16, "COM%u", newCOMNum);
 			_comPort = buffer;
 		}
-		inline void waveName(const std::string newName) {
+		inline void waveName(const std::string &newName) {
 			_waveName = newName;
 		}
 		inline void baudRate(const unsigned int newBaudRate) {
