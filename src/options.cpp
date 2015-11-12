@@ -5,7 +5,6 @@ using namespace std;
 #include "../optionparser/optionparser.h"
 
 
-int CmdLineOptions::processCmdLine(int argc, char * argv[]) {
 enum OptionIndex {UNKNOWN,HELP, TEMPLATE, DEBUG, QUIET, INPUTFILE};
 enum OptionType {DISABLE, ENABLE, OTHER};
 const option::Descriptor usage[] = {
@@ -21,6 +20,12 @@ const option::Descriptor usage[] = {
 {0,0,0,0,0,0}
 };
 
+void CmdLineOptions::printUsage(int width) {
+	option::printUsage(cout, usage, width);
+}
+
+int CmdLineOptions::processCmdLine(int argc, char * argv[]) {
+
 argc -= (argc>0); argv+=(argc>0); // skip argv[0] if present, it is the program name
 option::Stats stats(usage, argc, argv);
 option::Option options[stats.options_max], buffer[stats.buffer_max];
@@ -33,25 +38,26 @@ if (options[TEMPLATE]) myTemplateFlag=true;
 if (options[DEBUG]) myDebugFlag=true;
 if (options[QUIET]) myQuietFlag=true;
 if (options[INPUTFILE]) {
-const char * fileStr = options[INPUTFILE].last()->arg;
-if (NULL != fileStr) {
-myInputPath = string(fileStr);
-} else {
-myInputPath = "";
-}
+	const char * fileStr = options[INPUTFILE].last()->arg;
+	if (NULL != fileStr) {
+		myInputPath = string(fileStr);
+	} else {
+		myInputPath = "";
+	}
 }
 
 if( ( parse.nonOptionsCount() > 0) || options[UNKNOWN]) {
-if( options[UNKNOWN] ) {
-cerr << "Encountered unknown options:\n";
-for(option::Option* opt = options[UNKNOWN]; opt; opt = opt->next()) cerr << "\t" << opt->name << "\n";
+	if( options[UNKNOWN] ) {
+		cerr << "Encountered unknown options:\n";
+		for(option::Option* opt = options[UNKNOWN]; opt; opt = opt->next()) cerr << "\t" << opt->name << "\n";
+	}
+	if (parse.nonOptionsCount() > 0) {
+		cerr << "Encountered non-options:\n";
+		for(int i=0; i<parse.nonOptionsCount(); i++) cerr << "\t\"" << parse.nonOption(i) << "\"\n";
+	}
+	return OPT_PARSE_BAD_OPTS;
 }
-if (parse.nonOptionsCount() > 0) {
-cerr << "Encountered non-options:\n";
-for(int i=0; i<parse.nonOptionsCount(); i++) cerr << "\t\"" << parse.nonOption(i) << "\"\n";
-}
-return OPT_PARSE_BAD_OPTS;
-}
+
 return OPT_PARSE_OK;
 }
 

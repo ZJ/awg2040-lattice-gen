@@ -28,6 +28,7 @@ bool getQuiet() const;
 std::string getInputPath() const;
 
 int processCmdLine(int argc, char * argv[]);
+void printUsage(int width=120);
 void print(std::ostream& out) const;
 
 bool operator ==(const CmdLineOptions& d) const;
