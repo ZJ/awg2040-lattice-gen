@@ -13,5 +13,10 @@ int main(int argc, char * argv[]) {
 	cout << "awg20400-lattice-gen " << GIT_VERSION << endl;
 
 	cout << "\nRunning via command: `" << argv[0] << "'" << endl;
+
+	if ( parsedOptions.getHelp() ) {
+		parsedOptions.printUsage();
+		return -1;
+	}
 	return 0;
 }
