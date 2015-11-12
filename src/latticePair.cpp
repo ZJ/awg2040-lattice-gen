@@ -34,3 +34,27 @@ void latticePair::addPulse(double pulseFrequency, double pulseAmplitude, double 
 	_masterAWG.outputPulses.pushPulse(freqPulse(pulseFrequency, pulseAmplitude, pulseDuration, pulsePhaseDifference/2.0, setStart));
 	_slaveAWG.outputPulses.pushPulse(freqPulse(pulseFrequency, pulseAmplitude, pulseDuration, -pulsePhaseDifference/2.0, setStart));
 }
+
+bool latticePair::processLine(const std::string &pulseSpecLine, bool firstLine) {
+	double	pulseFrequency, pulseAmplitude, pulseDuration, pulsePhaseDiff;
+	std::istringstream pulseLine(pulseSpecLine);
+	char delim;
+
+	// Check if WS or just a comment, if it skip the line
+	pulseLine >> std::skipws >> delim;
+	if ('#' == delim || pulseLine.eof()) return true;
+	pulseLine.putback(delim); // Shouldn't have removed it
+	
+	// Read CSV line, return false if misformatted
+	pulseLine >> pulseFrequency >> delim;
+	if (',' != delim) return false;
+	pulseLine	>> pulseAmplitude	>> delim;
+	if (',' != delim) return false;
+	pulseLine	>> pulseDuration	>> delim;
+	if (',' != delim) return false;
+	pulseLine	>> pulsePhaseDiff	>> delim;
+	if ((!pulseLine.eof()) && ('#' != delim)) return false;	
+
+	addPulse(pulseFrequency, pulseAmplitude, pulseDuration, pulsePhaseDiff, firstLine);
+	return true;
+}

@@ -3,6 +3,8 @@
 #include "awg.hpp"
 #include "pulseTrain.hpp"
 
+#include <string>
+#include <sstream>
 // no interface for defining pulses, that's for a sub-class.
 
 class awgPair {
@@ -40,6 +42,8 @@ class latticePair : public awgPair {
 	public:
 		latticePair(unsigned long baudRate=19200, double clockFrequency=1024.0) : awgPair(baudRate, clockFrequency) {};
 		void	addPulse(double pulseFrequency, double pulseAmplitude, double pulseDuration, double pulsePhaseDifference, bool setStart=false);
+		bool processLine(const std::string &pulseSpecLine, bool firstLine=false);
 };
+
 #endif //LATTICEPAIR_HPP_2015_11_11
 

@@ -36,6 +36,11 @@ add_executable(${TEST_NAME}.test EXCLUDE_FROM_ALL "${TEST_NAME}.cpp")
 target_link_libraries(${TEST_NAME}.test pulseTrain awg)
 set( ALL_TESTS ${ALL_TESTS} ${TEST_NAME}.test )
 
+set(TEST_NAME testLatticePair-processLine)
+add_executable(${TEST_NAME}.test EXCLUDE_FROM_ALL "${TEST_NAME}.cpp")
+target_link_libraries(${TEST_NAME}.test latticePair)
+set( ALL_TESTS ${ALL_TESTS} ${TEST_NAME}.test )
+
 # Link every test to ${GTEST_LIBS}, and add it to the test runner
 foreach(this_test ${ALL_TESTS})
 target_link_libraries(${this_test} ${GTEST_LIBS})
