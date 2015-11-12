@@ -11,7 +11,7 @@ public:
 // Constructors
 CmdLineOptions();
 CmdLineOptions(bool helpFlag, bool templateFlag, bool debugFlag, bool quietFlag, std::string inputPath);
-
+CmdLineOptions(int argc, char * argv[]) : myHelpFlag(false), myTemplateFlag(false), myDebugFlag(false), myQuietFlag(false) {processCmdLine(argc, argv);};
 // Destructors
 
 // Accessors etc.
