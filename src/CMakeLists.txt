@@ -14,3 +14,7 @@ add_library(awg "awg.cpp")
 target_link_libraries(awg pulseTrain)
 add_library(latticePair "latticePair.cpp")
 target_link_libraries(latticePair awg pulseTrain)
+
+add_executable(awg2040-lattice-gen "main.cpp")
+target_link_libraries(awg2040-lattice-gen latticePair options)
+add_dependencies(awg2040-lattice-gen version)
