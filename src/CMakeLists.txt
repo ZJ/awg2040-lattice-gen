@@ -1,4 +1,13 @@
 cmake_minimum_required(VERSION 2.6)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+add_custom_target(
+	version
+	${CMAKE_COMMAND} -DSRC=${CMAKE_CURRENT_SOURCE_DIR}/version.h.in
+	-DDST=${CMAKE_CURRENT_BINARY_DIR}/version.h
+	-P ${CMAKE_CURRENT_SOURCE_DIR}/version.cmake
+)
+
 add_library(options "options.cpp")
 add_library(pulseTrain "pulseTrain.cpp")
 add_library(awg "awg.cpp")
