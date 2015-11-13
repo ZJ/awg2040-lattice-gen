@@ -76,7 +76,7 @@ std::string pulseTrain::markerChars(const double samplePeriod, const unsigned in
 		}
 	}
 	
-	for (thisPulse; thisPulse != _pulses.end(); thisPulse++) {
+	for (; thisPulse != _pulses.end(); thisPulse++) {
 		secondString += thisPulse->markerChars(thisPulse->numPoints(samplePeriod, nearestHalfCycle), startMarkerPoints);
 	}
 
@@ -106,7 +106,7 @@ std::string pulseTrain::waveChars(const double samplePeriod, const unsigned int 
 		}
 	}
 	
-	for (thisPulse; thisPulse != _pulses.end(); thisPulse++) {
+	for (; thisPulse != _pulses.end(); thisPulse++) {
 		secondString += thisPulse->waveChars(samplePeriod, thisPulse->numPoints(samplePeriod, nearestHalfCycle));
 	}
 
