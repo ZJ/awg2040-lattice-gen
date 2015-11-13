@@ -63,7 +63,7 @@ std::string pulseTrain::markerChars(const double samplePeriod, const unsigned in
 	secondString.reserve(numPoints+1);
 
 	int shiftAmount = ((int) round(_cyclicShift/samplePeriod));
-	int firstLength = ((shiftAmount >= 0) ? (numPoints - shiftAmount) : (-shiftAmount))%numPoints; 
+	unsigned int firstLength = ((shiftAmount >= 0) ? (numPoints - shiftAmount) : (-shiftAmount))%numPoints;
 	
 	std::deque<freqPulse>::iterator thisPulse = _pulses.begin();
 	for (thisPulse = _pulses.begin(); thisPulse != _pulses.end(); thisPulse++) {
@@ -93,8 +93,8 @@ std::string pulseTrain::waveChars(const double samplePeriod, const unsigned int 
 	secondString.reserve(numPoints+1);
 
 	int shiftAmount = ((int) round(_cyclicShift/samplePeriod));
-	int firstLength = ((shiftAmount >= 0) ? (numPoints - shiftAmount) : (-shiftAmount))%numPoints; 
-	
+	unsigned int firstLength = ((shiftAmount >= 0) ? (numPoints - shiftAmount) : (-shiftAmount))%numPoints;
+
 	std::deque<freqPulse>::iterator thisPulse = _pulses.begin();
 	for (thisPulse = _pulses.begin(); thisPulse != _pulses.end(); thisPulse++) {
 		firstString += thisPulse->waveChars(samplePeriod, thisPulse->numPoints(samplePeriod, nearestHalfCycle));
