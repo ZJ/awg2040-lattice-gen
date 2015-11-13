@@ -68,7 +68,7 @@ COMMAND lcov -q --directory ${PROJECT_SOURCE_DIR} --capture --output-file covera
 COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --blue "Merging with Initial Coverage"
 COMMAND lcov -q --add-tracefile coverage.info.base --add-tracefile coverage.info.test --output-file coverage.info
 COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --blue "Removing Irrelevant Information"
-COMMAND lcov -q --remove coverage.info 'tests/*' '/usr/*' 'optionparser/*' --output-file coverage.info
+COMMAND lcov -q --remove coverage.info 'src/main.cpp' 'tests/*' '/usr/*' 'optionparser/*' --output-file coverage.info
 COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --green "Listing Coverage"
 COMMAND lcov --list coverage.info
 COMMENT "Test Coverage: Generating results"
