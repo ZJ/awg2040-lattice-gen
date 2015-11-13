@@ -51,7 +51,7 @@ endforeach(this_test)
 ## Coverage generation
 # Zero any prior gathered coverage
 add_custom_target(coverage-zero
-COMMAND lcov --directory ${PROJECT_SOURCE_DIR} --zerocounter
+COMMAND lcov --directory ${PROJECT_SOURCE_DIR} --base-directory ${PROJECT_SOURCE_DIR} --zerocounter
 COMMENT "Test Coverage: Zeroing counters"
 VERBATIM)
 
