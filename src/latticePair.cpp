@@ -1,6 +1,6 @@
 #include "latticePair.hpp"
 
-awgPair::awgPair(unsigned long baudRate, double clockFrequency) {
+awgPair::awgPair(unsigned long baudRate, double clockFrequency) : _usedFirstPulse(false) {
 	_masterAWG.clockFrequency(clockFrequency);
 	_masterAWG.baudRate(baudRate);
 	_masterAWG.waveName(std::string("MASTER.WFM"));
@@ -35,7 +35,7 @@ void latticePair::addPulse(double pulseFrequency, double pulseAmplitude, double 
 	_slaveAWG.outputPulses.pushPulse(freqPulse(pulseFrequency, pulseAmplitude, pulseDuration, -pulsePhaseDifference/2.0, setStart));
 }
 
-bool latticePair::processLine(const std::string &pulseSpecLine, bool firstLine) {
+bool latticePair::processLine(const std::string &pulseSpecLine, bool markFirstLine) {
 	double	pulseFrequency, pulseAmplitude, pulseDuration, pulsePhaseDiff;
 	std::istringstream pulseLine(pulseSpecLine);
 	char delim;
@@ -57,6 +57,7 @@ bool latticePair::processLine(const std::string &pulseSpecLine, bool firstLine) 
 	pulseLine	>> delim;
 	if ((!pulseLine.eof()) && ('#' != delim)) return false;	
 
-	addPulse(pulseFrequency, pulseAmplitude, pulseDuration, pulsePhaseDiff, firstLine);
+	addPulse(pulseFrequency, pulseAmplitude, pulseDuration, pulsePhaseDiff, markFirstLine && (!_usedFirstPulse));
+	_usedFirstPulse = true;
 	return true;
 }
