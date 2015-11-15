@@ -8,6 +8,9 @@ using namespace std;
 #include "version.h"
 #include "latticePair.hpp"
 
+#define MASTER_FILE	"Master.AWG.txt"
+#define SLAVE_FILE	"Slave.AWG.txt"
+
 int main(int argc, char * argv[]) {
 	ifstream theFile;
 	CmdLineOptions parsedOptions(argc, argv);
@@ -58,17 +61,17 @@ int main(int argc, char * argv[]) {
 	}
 	if ( !parsedOptions.getQuiet() ) cout << "Done reading file." << endl;
 
-	ofstream outputFiles("Master.AWG.txt");
+	ofstream outputFiles(MASTER_FILE);
 	if ( outputFiles.is_open() && outputFiles.good() ) {
 		outputFiles << ourPair.masterProgrammingString();
 		outputFiles.close();
-		if (! parsedOptions.getQuiet()) cout << "Commands saved to Master.AWG.txt" << endl;
+		if (! parsedOptions.getQuiet()) cout << "Commands saved to" << MASTER_FILE << endl;
 	}
 	outputFiles.open("Slave.AWG.txt");
 	if ( outputFiles.is_open() && outputFiles.good() ) {
 		outputFiles << ourPair.slaveProgrammingString();
 		outputFiles.close();
-		if (! parsedOptions.getQuiet()) cout << "Commands saved to Slave.AWG.txt" << endl;
+		if (! parsedOptions.getQuiet()) cout << "Commands saved to" << SLAVE_FILE << endl;
 	}
 
 	return 0;
