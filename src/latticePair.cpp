@@ -47,12 +47,14 @@ bool latticePair::processLine(const std::string &pulseSpecLine, bool firstLine) 
 	
 	// Read CSV line, return false if misformatted
 	pulseLine >> pulseFrequency >> delim;
-	if (',' != delim) return false;
+	if ( !pulseLine.good() || ',' != delim) return false;
 	pulseLine	>> pulseAmplitude	>> delim;
-	if (',' != delim) return false;
+	if ( !pulseLine.good() || ',' != delim) return false;
 	pulseLine	>> pulseDuration	>> delim;
-	if (',' != delim) return false;
-	pulseLine	>> pulsePhaseDiff	>> delim;
+	if ( !pulseLine.good() || ',' != delim) return false;
+	pulseLine	>> pulsePhaseDiff;
+	if ( pulseLine.fail() ) return false;
+	pulseLine	>> delim;
 	if ((!pulseLine.eof()) && ('#' != delim)) return false;	
 
 	addPulse(pulseFrequency, pulseAmplitude, pulseDuration, pulsePhaseDiff, firstLine);
