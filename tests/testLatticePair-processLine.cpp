@@ -24,6 +24,13 @@ TEST_F(LatticePairProcessLine, BadThreeArgs) {
 }
 
 TEST_F(LatticePairProcessLine, BadThreeArgsComma) {
+	testString = "1.0, 2.1, 3.2,";
+
+	EXPECT_FALSE(testPair.processLine(testString, true));
+	EXPECT_FALSE(testPair.processLine(testString, false));
+}
+
+TEST_F(LatticePairProcessLine, BadThreeArgsCommaComment) {
 	testString = "1.0, 2.1, 3.2, #this is a comment\n";
 
 	EXPECT_FALSE(testPair.processLine(testString, true));
@@ -38,6 +45,13 @@ TEST_F(LatticePairProcessLine, BadTwoArgs) {
 }
 
 TEST_F(LatticePairProcessLine, BadTwoArgsComma) {
+	testString = "1.0, 2.1,\n";
+
+	EXPECT_FALSE(testPair.processLine(testString, true));
+	EXPECT_FALSE(testPair.processLine(testString, false));
+}
+
+TEST_F(LatticePairProcessLine, BadTwoArgsCommaComment) {
 	testString = "1.0, 2.1, #this is a comment\n";
 
 	EXPECT_FALSE(testPair.processLine(testString, true));
@@ -53,6 +67,13 @@ TEST_F(LatticePairProcessLine, BadOneArg) {
 
 TEST_F(LatticePairProcessLine, BadOneArgComma) {
 	testString = "1.0,";
+
+	EXPECT_FALSE(testPair.processLine(testString, true));
+	EXPECT_FALSE(testPair.processLine(testString, false));
+}
+
+TEST_F(LatticePairProcessLine, BadOneArgCommaComment) {
+	testString = "1.0, #Comment";
 
 	EXPECT_FALSE(testPair.processLine(testString, true));
 	EXPECT_FALSE(testPair.processLine(testString, false));
@@ -94,6 +115,20 @@ TEST_F(LatticePairProcessLine, GoodNullLine) {
 
 TEST_F(LatticePairProcessLine, BadExtraArg) {
 	testString = "1.0, 2.1, 3.2, 1.1, 4.4 #this is a comment\n";
+
+	EXPECT_FALSE(testPair.processLine(testString, true));
+	EXPECT_FALSE(testPair.processLine(testString, false));
+}
+
+TEST_F(LatticePairProcessLine, EmptyArgs) {
+	testString = ", 12, 1.4, 11.9";
+
+	EXPECT_FALSE(testPair.processLine(testString, true));
+	EXPECT_FALSE(testPair.processLine(testString, false));
+}
+
+TEST_F(LatticePairProcessLine, Gibberish) {
+	testString = "a;lskdjf;alsk";
 
 	EXPECT_FALSE(testPair.processLine(testString, true));
 	EXPECT_FALSE(testPair.processLine(testString, false));
