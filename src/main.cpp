@@ -47,9 +47,9 @@ int main(int argc, char * argv[]) {
 		theFile.peek();
 		linesRead++;
 		if ( parsedOptions.getDebug() ) cout << setw(4) << linesRead << " | " << theLine << "\n";
-		if ( !ourPair.processLine(theLine) ) {
+		if ( !ourPair.processLine(theLine, true) ) {
 			syntaxOK = false;
-			cerr << "\tFile syntax error on line" << linesRead << endl;
+			cerr << "\tSyntax error on line " << linesRead << endl;
 		}
 	}
 	if ( !syntaxOK ) {
@@ -57,7 +57,20 @@ int main(int argc, char * argv[]) {
 		return -1;
 	}
 	if ( !parsedOptions.getQuiet() ) cout << "Done reading file." << endl;
-	
+
+	ofstream outputFiles("Master.AWG.txt");
+	if ( outputFiles.is_open() && outputFiles.good() ) {
+		outputFiles << ourPair.masterProgrammingString();
+		outputFiles.close();
+		if (! parsedOptions.getQuiet()) cout << "Commands saved to Master.AWG.txt" << endl;
+	}
+	outputFiles.open("Slave.AWG.txt");
+	if ( outputFiles.is_open() && outputFiles.good() ) {
+		outputFiles << ourPair.slaveProgrammingString();
+		outputFiles.close();
+		if (! parsedOptions.getQuiet()) cout << "Commands saved to Slave.AWG.txt" << endl;
+	}
+
 	return 0;
 }
 
