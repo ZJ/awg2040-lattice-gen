@@ -45,6 +45,19 @@ bool latticePair::processLine(const std::string &pulseSpecLine, bool markFirstLi
 	if ('#' == delim || pulseLine.eof()) return true;
 	pulseLine.putback(delim); // Shouldn't have removed it
 	
+	// Check if we're spec-ing a shift
+	if ( 'S' == pulseLine.peek() ) {
+		std::string checkShift;
+		pulseLine >> checkShift >> pulseDuration;
+		if ( std::string("SLAVE_SHIFT") != checkShift ) return false;
+		if ( pulseLine.fail() ) return false;
+		pulseLine >> delim;
+		if ((!pulseLine.eof()) && ('#' != delim)) return false;
+
+		slaveDelay(pulseDuration);
+		return true;
+	}
+		
 	// Read CSV line, return false if misformatted
 	pulseLine >> pulseFrequency >> delim;
 	if ( !pulseLine.good() || ',' != delim) return false;

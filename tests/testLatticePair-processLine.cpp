@@ -134,6 +134,27 @@ TEST_F(LatticePairProcessLine, Gibberish) {
 	EXPECT_FALSE(testPair.processLine(testString, false));
 }
 
+TEST_F(LatticePairProcessLine, SlaveShiftOK) {
+	testString = "SLAVE_SHIFT 143.2 #ns\n";
+
+	EXPECT_TRUE(testPair.processLine(testString, true));
+	EXPECT_TRUE(testPair.processLine(testString, false));
+}
+
+TEST_F(LatticePairProcessLine, SlaveShiftMissingArg) {
+	testString = "SLAVE_SHIFT #No arg\n";
+
+	EXPECT_FALSE(testPair.processLine(testString, true));
+	EXPECT_FALSE(testPair.processLine(testString, false));
+}
+
+TEST_F(LatticePairProcessLine, SlaveShiftBadArg) {
+	testString = "SLAVE_SHIFT 1,0\n";
+
+	EXPECT_FALSE(testPair.processLine(testString, true));
+	EXPECT_FALSE(testPair.processLine(testString, false));
+}
+
 int main(int argc, char * argv[] ) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
