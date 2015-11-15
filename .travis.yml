@@ -29,7 +29,7 @@ after_success:
 - coveralls-lcov --repo-token ${COVERALLS_TOKEN} tests/coverage.info
 after_failure:
 - echo -e "\e[31m(╯°□°)╯︵ ┻━┻  $HOST\e[0m"
-before-deploy:
+before_deploy:
 - make install
 - ls ${TRAVIS_BUILD_DIR}/deploy
 deploy:
