@@ -23,6 +23,13 @@ TEST_F(LatticePairProcessLine, BadThreeArgs) {
 	EXPECT_FALSE(testPair.processLine(testString, false));
 }
 
+TEST_F(LatticePairProcessLine, BadThreeArgsComma) {
+	testString = "1.0, 2.1, 3.2, #this is a comment\n";
+
+	EXPECT_FALSE(testPair.processLine(testString, true));
+	EXPECT_FALSE(testPair.processLine(testString, false));
+}
+
 TEST_F(LatticePairProcessLine, BadTwoArgs) {
 	testString = "1.0, 2.1 #this is a comment\n";
 
@@ -30,8 +37,22 @@ TEST_F(LatticePairProcessLine, BadTwoArgs) {
 	EXPECT_FALSE(testPair.processLine(testString, false));
 }
 
+TEST_F(LatticePairProcessLine, BadTwoArgsComma) {
+	testString = "1.0, 2.1, #this is a comment\n";
+
+	EXPECT_FALSE(testPair.processLine(testString, true));
+	EXPECT_FALSE(testPair.processLine(testString, false));
+}
+
 TEST_F(LatticePairProcessLine, BadOneArg) {
 	testString = "1.0";
+
+	EXPECT_FALSE(testPair.processLine(testString, true));
+	EXPECT_FALSE(testPair.processLine(testString, false));
+}
+
+TEST_F(LatticePairProcessLine, BadOneArgComma) {
+	testString = "1.0,";
 
 	EXPECT_FALSE(testPair.processLine(testString, true));
 	EXPECT_FALSE(testPair.processLine(testString, false));
