@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 using namespace std;
 
 #include "options.hpp"
@@ -11,14 +12,14 @@ int main(int argc, char * argv[]) {
 	ifstream theFile;
 	CmdLineOptions parsedOptions(argc, argv);
 
-	cout << "awg20400-lattice-gen " << GIT_VERSION << endl;
+	if ( !parsedOptions.getQuiet() ) cout << "awg20400-lattice-gen " << GIT_VERSION << endl;
 
 	if ( parsedOptions.getDebug() ) {
-		cout << "Command invoked as: `" << argv[0];
+		cout << "Command invoked as: " << argv[0];
 		for(int arg=1; arg<argc; arg++) {
 			cout << ' ' << argv[arg];
 		}
-		cout << "'\n";
+		cout << "\n";
 	}
 
 	if ( parsedOptions.getHelp() ) {
@@ -29,7 +30,7 @@ int main(int argc, char * argv[]) {
 	string inputFilePath("AWGSpec.csv");
 	if ( parsedOptions.getInputPath().size() > 0 ) inputFilePath = parsedOptions.getInputPath();
 
-	cout << "\nReading file from: " << inputFilePath << endl;
+	if ( !parsedOptions.getQuiet() ) cout << "\nReading file from: \"" << inputFilePath << "\"\n";
 	theFile.open(inputFilePath.c_str());
 	if (!theFile.is_open() || !theFile.good()) {
 		cerr << "Problem opening data file!" << endl;
@@ -38,31 +39,25 @@ int main(int argc, char * argv[]) {
 	}
 	
 	string theLine;
-	unsigned int linesRead=0;
+	unsigned int linesRead(0);
 	latticePair ourPair;	
+	bool syntaxOK(true);
 	while( theFile.good() ) {
 		std::getline(theFile, theLine);
 		theFile.peek();
 		linesRead++;
-		ourPair.processLine(theLine);
-		if ( parsedOptions.getDebug() ) cout << linesRead << "\t| " << theLine << endl;
-	
+		if ( parsedOptions.getDebug() ) cout << setw(4) << linesRead << " | " << theLine << "\n";
+		if ( !ourPair.processLine(theLine) ) {
+			syntaxOK = false;
+			cerr << "\tFile syntax error on line" << linesRead << endl;
+		}
 	}
-	cout << "Done!" << endl;	
+	if ( !syntaxOK ) {
+		cerr << "Problems reading file, correct it and try again later" << endl;
+		return -1;
+	}
+	if ( !parsedOptions.getQuiet() ) cout << "Done reading file." << endl;
 	
-	string master, slave;
-	cout << "Getting master string" << endl;
-	master = ourPair.masterProgrammingString();
-	cout << "Getting slave string" << endl;
-	slave  = ourPair.slaveProgrammingString();
-		
-	cout << "Master Programming String:" << endl;
-	cout << master; 
-	cout << endl << endl;
-
-	cout << "Slave Programming String:" << endl;
-	cout << slave;
-		
 	return 0;
 }
 
