@@ -14,9 +14,9 @@ addons:
     - binutils-mingw-w64-x86-64
     - gcc-mingw-w64-base
     - gcc-mingw-w64-i686
-    - gcc-mingw-w64-x86_64
+    - gcc-mingw-w64-x86-64
     - g++-mingw-w64-i686
-    - g++-mingw-w64-x86_64
+    - g++-mingw-w64-x86-64
     - gcc-mingw-w64
     - g++-mingw-w64
     - mingw-w64
