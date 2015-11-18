@@ -29,13 +29,15 @@ after_success:
 after_failure:
 - echo -e "\e[31m(╯°□°)╯︵ ┻━┻  $HOST\e[0m"
 before_deploy:
-- make install
+- cd ${TRAVIS_BUILD_DIR}/build
+- for TOOLCHAIN in $(ls ../cmake-toolchains/*.toolchain); do ../cmake-toolchains/movePackage.sh "$TOOLCHAIN"; done
 - ls ${TRAVIS_BUILD_DIR}/deploy
 deploy:
   provider: releases
   api_key:
     secure: vccEGkDYE2OqutdVao0zF49JYKDxpFFDIQ5TIxPnOlTVNco+o2S4Ow7QnF/aDZm5uV6HW+1XAFeYfqRj7kjXUbUzoIfwul/AvIM7UvWxbxUtqnEoRYCxYXIQH/3RsbtfSk3dQbSOoAxHC45lRHac7g57J7/dCHUZTe0F4ft/6wH4XspFNEj7HfUjkbHF4OQK/+ceOykHYITjOIlEhB2h4brjmCMX8uy6DZYoHo6Yh6HCiUvDJk2RPcv62iDq55HMYrvg0jvRQVfLyBSdr7LdFPNcXWQ9VdL9bzCRjSxyJ1TFcTpRzZKZ7dFc4daIcS77+EDWblkkCDaoZxumbzpCM5M5007D/9blYNKfIlQZBzGc1OPFSHxvhRgUThNZLm16u1FChif0BYbBqcp3qxjhiZFBie7TjycB4klrnfHor2MYGuNG9eb4uY4m7jIcKKOw+a/YluQUQjmZeWB81yt/I1hyrNfGavBWaN8kEN2gGUYX/LMvMwIBITGXcyHHzFDwrlPIs0sjmFkpUogNITVrBiG4IiiWMo6erVneeQKB0lLXlKTXVZU/bJx8G5bscJ72uZkYcakIHSMOFH4Xi/0IuBFwp8ZCYeOFuIdNZbaHDOpQhp2ngzSDJYm9uDyb9ZYhJTexBjFEicYCPsI6p+CA/FEiAcI8oPXyNtEu+v8d/Bo=
-  file: ${TRAVIS_BUILD_DIR}/deploy/awg2040-lattice-gen
+  file_glob: true
+  file: ${TRAVIS_BUILD_DIR}/deploy/awg2040-lattice-gen*
   on:
     tags: true
   skip_cleanup: true
