@@ -9,6 +9,9 @@ addons:
     packages:
     - libgtest-dev
     - lcov
+    - mingw-w64
+    - gcc-multilib
+    - g++-multilib
 install:
 - gem install coveralls-lcov
 before_script:
