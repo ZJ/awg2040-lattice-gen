@@ -3,23 +3,47 @@ project(awg2040-lattice-gen)
 set(awgLS_VERSION_MAJOR 0)
 set(awgLS_VERSION_MINOR 1)
 
+if(NOT DEFINED TOOLCHAIN_VARIANT_NAME)
+	set(TOOLCHAIN_VARIANT_NAME "")
+endif()
+
+#Setup Packaging Info
+find_package(Git)
+if(GIT_FOUND)
+EXECUTE_PROCESS(
+		COMMAND ${GIT_EXECUTABLE} describe --tags --abbrev=10 --always --dirty
+		OUTPUT_VARIABLE GIT_VERSION_STRING
+		OUTPUT_STRIP_TRAILING_WHITESPACE)
+SET(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-${GIT_VERSION_STRING}-${TOOLCHAIN_VARIANT_NAME}")
+ELSE()
+SET(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-Source")
+ENDIF()
+# Zip vs TarGzip
+IF(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+SET(CPACK_GENERATOR "ZIP")
+ELSE(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+SET(CPACK_GENERATOR "TGZ")
+ENDIF(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+Include(CPack)
+
 configure_file (
 "${PROJECT_SOURCE_DIR}/Config.h.in"
 "${PROJECT_BINARY_DIR}/Config.h"
 )
 
+set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}/deploy/${TOOLCHAIN_VARIANT_NAME}")
+MESSAGE( STATUS "make install will place hierarchy in ${CMAKE_INSTALL_PREFIX}")
+
 MESSAGE( STATUS "Value of TRAVIS: $ENV{TRAVIS}")
 if(DEFINED ENV{TRAVIS})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -g -O0")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -g -O0")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} --coverage")
 endif()
 
 include_directories("${PROJECT_BINARY_DIR}")
 
-find_library( GTEST gtest "${PROJECT_SOURCE_DIR}/gtest/builds/native/lib")
-set(GTEST_LIBS "${GTEST}" pthread)
-
 enable_testing()
 
+add_subdirectory(/usr/src/gtest ${PROJECT_BINARY_DIR}/gtest EXCLUDE_FROM_ALL)
 add_subdirectory(src)
 add_subdirectory(tests)

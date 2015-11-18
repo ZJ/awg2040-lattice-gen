@@ -1,3 +1,0 @@
-# Ignore subdirectories, they are temporary and not packaged
-src/
-builds/

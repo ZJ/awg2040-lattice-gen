@@ -17,7 +17,7 @@ before_script:
 - mkdir -p build
 - mkdir -p deploy
 - cd build
-- cmake .. -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/deploy
+- cmake .. -DCMAKE_INSTALL_PREFIX=${TRAVIS_BUILD_DIR}/deploy -DCMAKE_BUILD_TYPE=Debug
 - make coverage-zero
 - make
 - make all-tests

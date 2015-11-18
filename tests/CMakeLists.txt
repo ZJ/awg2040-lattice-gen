@@ -43,7 +43,7 @@ set( ALL_TESTS ${ALL_TESTS} ${TEST_NAME}.test )
 
 # Link every test to ${GTEST_LIBS}, and add it to the test runner
 foreach(this_test ${ALL_TESTS})
-target_link_libraries(${this_test} ${GTEST_LIBS})
+target_link_libraries(${this_test} gtest gtest_main)
 add_test( "${this_test}" "${this_test}")
 add_dependencies(all-tests ${this_test})
 endforeach(this_test)
