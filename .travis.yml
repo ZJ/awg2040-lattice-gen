@@ -9,6 +9,8 @@ addons:
     packages:
     - libgtest-dev
     - lcov
+    - gcc-mingw-w64
+    - g++-mingw-w64
     - mingw-w64
     - gcc-multilib
     - g++-multilib
