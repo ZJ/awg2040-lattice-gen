@@ -11,7 +11,6 @@ addons:
     - lcov
 install:
 - gem install coveralls-lcov
-- gtest/build_gtest.sh
 before_script:
 - cd ${TRAVIS_BUILD_DIR}
 - mkdir -p build
