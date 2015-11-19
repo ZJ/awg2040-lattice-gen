@@ -7,6 +7,13 @@ add_custom_target(
 	-DDST=${CMAKE_CURRENT_BINARY_DIR}/version.h
 	-P ${CMAKE_CURRENT_SOURCE_DIR}/version.cmake
 )
+add_custom_target(
+	sampleFile
+	${CMAKE_COMMAND} -DSRC="${CMAKE_CURRENT_SOURCE_DIR}/sampleFile.h.in"
+	-DDST="${CMAKE_CURRENT_BINARY_DIR}/sampleFile.h"
+	-DSAMPLE="${CMAKE_CURRENT_SOURCE_DIR}/AWGSpec-sample.txt"
+	-P "${CMAKE_CURRENT_SOURCE_DIR}/sampleFile.cmake"
+)
 
 add_library(options "options.cpp")
 add_library(pulseTrain "pulseTrain.cpp")
@@ -17,7 +24,7 @@ target_link_libraries(latticePair awg pulseTrain)
 
 add_executable(awg2040-lattice-gen "main.cpp")
 target_link_libraries(awg2040-lattice-gen latticePair options)
-add_dependencies(awg2040-lattice-gen version)
+add_dependencies(awg2040-lattice-gen version sampleFile)
 
 install(TARGETS awg2040-lattice-gen RUNTIME DESTINATION . CONFIGURATIONS RELEASE)
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")

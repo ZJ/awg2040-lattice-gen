@@ -1,0 +1,10 @@
+#ifndef SAMPLE_FILE_20151119
+#define SAMPLE_FILE_20151119
+
+const char sampleFile[] = {
+@SAMPLE_FILE_CONTENTS@
+};
+
+const unsigned int sampleFile_len = sizeof(sampleFile)/sizeof(sampleFile[0]);
+
+#endif //SAMPLE_FILE_20151119
