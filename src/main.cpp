@@ -79,17 +79,17 @@ int main(int argc, char * argv[]) {
 	}
 	if ( !parsedOptions.getQuiet() ) cout << "Done reading file." << endl;
 
-	outputFiles.open(MASTER_FILE);
+	outputFiles.open(MASTER_FILE, ios::out | ios::binary | ios::trunc);
 	if ( outputFiles.is_open() && outputFiles.good() ) {
 		outputFiles << ourPair.masterProgrammingString();
 		outputFiles.close();
-		if (! parsedOptions.getQuiet()) cout << "Commands saved to" << MASTER_FILE << endl;
+		if (! parsedOptions.getQuiet()) cout << "Commands saved to " << MASTER_FILE << endl;
 	}
-	outputFiles.open("Slave.AWG.txt");
+	outputFiles.open("Slave.AWG.txt", ios::out | ios::binary | ios::trunc);
 	if ( outputFiles.is_open() && outputFiles.good() ) {
 		outputFiles << ourPair.slaveProgrammingString();
 		outputFiles.close();
-		if (! parsedOptions.getQuiet()) cout << "Commands saved to" << SLAVE_FILE << endl;
+		if (! parsedOptions.getQuiet()) cout << "Commands saved to " << SLAVE_FILE << endl;
 	}
 
 	return 0;
