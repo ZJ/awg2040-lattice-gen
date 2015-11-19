@@ -18,10 +18,13 @@ SLAVE_SHIFT 131.2 # Shift by 131.2 ns
 #
 # The specification of the pulse train is recorded as comma-separated values
 # on a line, read in order from top to bottom. The actual duration of a given
-# frequency pulse will be rounded to the nearest half period. The format of a
-# given line is:
+# frequency pulse will be rounded to the nearest half period(1). The format of
+# a given line is:
 # Frequency [MHz], Amplitude [Relative [0,1]], Duration [ns], Phase [Pi [-1,1]]
 # For example:
 100.0, 1.0, 10.0, 0.00 # 100 MHz, full amp. for  10 ns (1 period),    in phase
 200.0, 0.5,  7.3, 1.00 # 200 MHz,  1/2 amp. for 7.5 ns (1.5 periods), Pi phase
 250.0, 0.8, 12.1, -0.5 # 250 MHz,  4/5 amp. for  12 ns (3 periods),  -Pi/2 phase
+#
+# (1) the total length of the pulse is _also_ subject to the AWG's clock period
+# granularity.
