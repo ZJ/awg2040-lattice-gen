@@ -23,6 +23,7 @@ int main(int argc, char * argv[]) {
 			cout << ' ' << argv[arg];
 		}
 		cout << "\n";
+		cout << "with options parsed as " << parsedOptions << endl;
 	}
 
 	if ( parsedOptions.getHelp() ) {
