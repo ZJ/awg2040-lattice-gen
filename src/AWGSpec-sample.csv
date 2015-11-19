@@ -1,4 +1,9 @@
-# AWGSpec-sample.txt
+# AWGSpec-sample.csv
+#
+# To use this file, either remove '-sample' (name it 'AWGSpec.csv') and copy
+# it to the working directory, or call the program with the -i option and the
+# path to the file, like 
+# awg2040-lattice-gen -i=~/AWGSpec-sample.csv
 #
 # This file is an example of the expected format for the pulse specification.
 # Throughout the spec file, lines containing only whitespace are ignored, and

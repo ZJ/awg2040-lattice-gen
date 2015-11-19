@@ -1,10 +1,14 @@
 #ifndef SAMPLE_FILE_20151119
 #define SAMPLE_FILE_20151119
 
+#define SAMPLE_FILE_NAME "AWGSpec-sample.csv"
+
 const char sampleFile[] = {
 @SAMPLE_FILE_CONTENTS@
+, 0x00
 };
 
-const unsigned int sampleFile_len = sizeof(sampleFile)/sizeof(sampleFile[0]);
+// Does not include terminating null character
+const unsigned int sampleFile_len = sizeof(sampleFile)/sizeof(sampleFile[0]) - 1;
 
 #endif //SAMPLE_FILE_20151119

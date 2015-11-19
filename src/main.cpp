@@ -5,14 +5,19 @@
 using namespace std;
 
 #include "options.hpp"
-#include "version.h"
 #include "latticePair.hpp"
+
+// Auto-generated sources
+#include "version.h"
+#include "sampleFile.h"
 
 #define MASTER_FILE	"Master.AWG.txt"
 #define SLAVE_FILE	"Slave.AWG.txt"
 
 int main(int argc, char * argv[]) {
 	ifstream theFile;
+	ofstream outputFiles;
+
 	CmdLineOptions parsedOptions(argc, argv);
 
 	if ( !parsedOptions.getQuiet() ) cout << "awg20400-lattice-gen " << GIT_VERSION << endl;
@@ -30,7 +35,19 @@ int main(int argc, char * argv[]) {
 		parsedOptions.printUsage();
 		return -1;
 	}
-	
+
+	if ( parsedOptions.getTemplate() ) {
+		outputFiles.open(SAMPLE_FILE_NAME, ios::out | ios::trunc);
+		if ( outputFiles.is_open() && outputFiles.good() ) {
+			outputFiles << sampleFile;
+			outputFiles.close();
+		} else {
+			cerr << "Error saving template file at " << SAMPLE_FILE_NAME << endl;
+			return -1;
+		}
+		if (! parsedOptions.getQuiet()) cout << "Template saved to " << SAMPLE_FILE_NAME << endl;
+		return 0;
+	}
 	string inputFilePath("AWGSpec.csv");
 	if ( parsedOptions.getInputPath().size() > 0 ) inputFilePath = parsedOptions.getInputPath();
 
@@ -62,7 +79,7 @@ int main(int argc, char * argv[]) {
 	}
 	if ( !parsedOptions.getQuiet() ) cout << "Done reading file." << endl;
 
-	ofstream outputFiles(MASTER_FILE);
+	outputFiles.open(MASTER_FILE);
 	if ( outputFiles.is_open() && outputFiles.good() ) {
 		outputFiles << ourPair.masterProgrammingString();
 		outputFiles.close();

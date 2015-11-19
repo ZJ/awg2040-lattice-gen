@@ -11,7 +11,7 @@ add_custom_target(
 	sampleFile
 	${CMAKE_COMMAND} -DSRC="${CMAKE_CURRENT_SOURCE_DIR}/sampleFile.h.in"
 	-DDST="${CMAKE_CURRENT_BINARY_DIR}/sampleFile.h"
-	-DSAMPLE="${CMAKE_CURRENT_SOURCE_DIR}/AWGSpec-sample.txt"
+	-DSAMPLE="${CMAKE_CURRENT_SOURCE_DIR}/AWGSpec-sample.csv"
 	-P "${CMAKE_CURRENT_SOURCE_DIR}/sampleFile.cmake"
 )
 
