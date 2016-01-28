@@ -14,6 +14,10 @@ class awgPair {
 		// Accessors
 		void	slaveDelay(double newSlaveDelay)	{_slaveAWG.outputPulses.shift(newSlaveDelay);};
 		double	slaveDelay()	{return _slaveAWG.outputPulses.shift();};
+		void	slaveAmplitude(double newSlaveAmplitude) {_slaveAWG.outputAmplitude(newSlaveAmplitude);};
+		double	slaveAmplitude()	{return _slaveAWG.outputAmplitude();};
+		void	masterAmplitude(double newMasterAmplitude) {_masterAWG.outputAmplitude(newMasterAmplitude);};
+		double	masterAmplitude()	{return _masterAWG.outputAmplitude();};
 		unsigned long  baudRate()	{return _masterAWG.baudRate();};
 		double	clockFrequency()	{return _masterAWG.clockFrequency();};
 		double	sampleRate()	{return _masterAWG.sampleRate();};
