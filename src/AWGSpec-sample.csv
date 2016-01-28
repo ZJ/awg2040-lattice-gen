@@ -12,9 +12,13 @@
 # The shift between the Master AWG and Slave AWG is specified in ns, and input
 # as 'SLAVE_SHIFT <value>', e.g.
 SLAVE_SHIFT 131.2 # Shift by 131.2 ns
-# If there are multiple lines like this, the last one is the one that applies.
-# Also worth noting, the actual shift will be rounded to the nearest AWG clock
-# period, e.g. if the AWG clock is 1 GHz, it will be rounded to the nearest ns.
+#
+MASTER_AMPLITUDE 2.0 # Master amplitude is 2.0 V Pk-Pk
+SLAVE_AMPLITUDE  2.0 # Slave  amplitude is 2.0 V Pk-pk
+# If there are multiple lines like any of the above, the last one is the one
+# that applies. Also worth noting, the actual shift will be rounded to the
+# nearest AWG clock period, e.g. if the AWG clock is 1 GHz, it will be rounded
+# to the nearest 1 ns.
 #
 # The specification of the pulse train is recorded as comma-separated values
 # on a line, read in order from top to bottom. The actual duration of a given
