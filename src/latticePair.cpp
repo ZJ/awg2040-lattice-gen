@@ -44,20 +44,42 @@ bool latticePair::processLine(const std::string &pulseSpecLine, bool markFirstLi
 	pulseLine >> std::skipws >> delim;
 	if ('#' == delim || pulseLine.eof()) return true;
 	pulseLine.putback(delim); // Shouldn't have removed it
-	
-	// Check if we're spec-ing a shift
+
+	// Check if we're spec-ing a SLAVE setting
 	if ( 'S' == pulseLine.peek() ) {
 		std::string checkShift;
 		pulseLine >> checkShift >> pulseDuration;
-		if ( std::string("SLAVE_SHIFT") != checkShift ) return false;
 		if ( pulseLine.fail() ) return false;
 		pulseLine >> delim;
 		if ((!pulseLine.eof()) && ('#' != delim)) return false;
 
-		slaveDelay(pulseDuration);
-		return true;
+		if ( std::string("SLAVE_SHIFT") == checkShift ) {
+			slaveDelay(pulseDuration);
+			return true;
+		} else if ( std::string("SLAVE_AMPLITUDE") == checkShift ) {
+			slaveAmplitude(pulseDuration);
+			return true;
+		} else {
+			return false;
+		}
 	}
-		
+
+	// Check if we're spec-ing a MASTER setting
+	if ( 'M' == pulseLine.peek() ) {
+		std::string checkShift;
+		pulseLine >> checkShift >> pulseDuration;
+		if ( pulseLine.fail() ) return false;
+		pulseLine >> delim;
+		if ((!pulseLine.eof()) && ('#' != delim)) return false;
+
+		if ( std::string("MASTER_AMPLITUDE") == checkShift ) {
+			masterAmplitude(pulseDuration);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	// Read CSV line, return false if misformatted
 	pulseLine >> pulseFrequency >> delim;
 	if ( !pulseLine.good() || ',' != delim) return false;
@@ -68,7 +90,7 @@ bool latticePair::processLine(const std::string &pulseSpecLine, bool markFirstLi
 	pulseLine	>> pulsePhaseDiff;
 	if ( pulseLine.fail() ) return false;
 	pulseLine	>> delim;
-	if ((!pulseLine.eof()) && ('#' != delim)) return false;	
+	if ((!pulseLine.eof()) && ('#' != delim)) return false;
 
 	addPulse(pulseFrequency, pulseAmplitude, pulseDuration, pulsePhaseDiff, markFirstLine && (!_usedFirstPulse));
 	_usedFirstPulse = true;
