@@ -35,12 +35,12 @@ TEST(AwgClass, ProgrammingString) {
 
 	awg testAwg(testTrain, 19200, 1000.0, "COM42", "testName.txt");
 	testAwg.startPulseLength(1.0);
-	const std::string expectedProgramming(S("DATA:DESTINATION \"testName.txt\"\nDATA:WIDTH 1\nCURVE #232\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\nMARKER:DATA #232\x2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\nCLOCK:FREQUENCY 1000.000000MHz\nCH1:WAVEFORM \"testName.txt\"\n"));
+	const std::string expectedProgramming(S("DATA:DESTINATION \"testName.txt\"\nDATA:WIDTH 1\nCURVE #232\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\nMARKER:DATA #232\x2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\nCLOCK:FREQUENCY 1000.000000MHz\nCH1:WAVEFORM \"testName.txt\"\nCH1:AMPLITUDE 2.000V\n"));
 	EXPECT_EQ(expectedProgramming, testAwg.programmingString());
 	
 	EXPECT_EQ(0, getReportedSampleCount(testAwg.programmingString())%32);
 
-	const std::string expectedProgramming2(S("DATA:DESTINATION \"testName.txt\"\nDATA:WIDTH 1\nCURVE #232\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\nMARKER:DATA #232\x2\2\2\0\0\0\0\0\0\0\0\0\0\0\0\0\x2\2\2\0\0\0\0\0\0\0\0\0\0\0\0\0\nCLOCK:FREQUENCY 1000.000000MHz\nCH1:WAVEFORM \"testName.txt\"\n"));
+	const std::string expectedProgramming2(S("DATA:DESTINATION \"testName.txt\"\nDATA:WIDTH 1\nCURVE #232\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\nMARKER:DATA #232\x2\2\2\0\0\0\0\0\0\0\0\0\0\0\0\0\x2\2\2\0\0\0\0\0\0\0\0\0\0\0\0\0\nCLOCK:FREQUENCY 1000.000000MHz\nCH1:WAVEFORM \"testName.txt\"\nCH1:AMPLITUDE 2.000V\n"));
 	testAwg.startPulseLength(2.7);
 	EXPECT_EQ(expectedProgramming2, testAwg.programmingString());
 	EXPECT_EQ(0, getReportedSampleCount(testAwg.programmingString())%32);

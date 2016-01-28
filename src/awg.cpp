@@ -44,6 +44,9 @@ std::string awg::programmingString() {
 	programmingString += buffer;
 	// Set the file to use
 	programmingString += "CH1:WAVEFORM \"" + _waveName + "\"\n";
+	// Set the output amplitude
+	snprintf(buffer, 128, "CH1:AMPLITUDE %#5.3fV\n", _outputAmplitude);
+	programmingString += buffer;
 
 	return programmingString;
 }
