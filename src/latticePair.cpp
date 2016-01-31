@@ -1,5 +1,7 @@
 #include "latticePair.hpp"
 
+#define HALF_PI 1.57079632679489661923132
+
 awgPair::awgPair(unsigned long baudRate, double clockFrequency) : _usedFirstPulse(false) {
 	_masterAWG.clockFrequency(clockFrequency);
 	_masterAWG.baudRate(baudRate);
@@ -30,9 +32,10 @@ void awgPair::startPulseLength(double newStartPulseLength) {
 	_slaveAWG.startPulseLength(newStartPulseLength);
 }
 
+// Phase by HALF_PI because shift each in opposite directions by half the requested difference (for the half) time PI because input is [-1,1]
 void latticePair::addPulse(double pulseFrequency, double pulseAmplitude, double pulseDuration, double pulsePhaseDifference, bool setStart) {
-	_masterAWG.outputPulses.pushPulse(freqPulse(pulseFrequency, pulseAmplitude, pulseDuration, pulsePhaseDifference/2.0, setStart));
-	_slaveAWG.outputPulses.pushPulse(freqPulse(pulseFrequency, pulseAmplitude, pulseDuration, -pulsePhaseDifference/2.0, setStart));
+	_masterAWG.outputPulses.pushPulse(freqPulse(pulseFrequency, pulseAmplitude, pulseDuration, pulsePhaseDifference * HALF_PI, setStart));
+	_slaveAWG.outputPulses.pushPulse(freqPulse(pulseFrequency, pulseAmplitude, pulseDuration, -pulsePhaseDifference * HALF_PI, setStart));
 }
 
 bool latticePair::processLine(const std::string &pulseSpecLine, bool markFirstLine) {
