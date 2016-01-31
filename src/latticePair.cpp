@@ -50,16 +50,16 @@ bool latticePair::processLine(const std::string &pulseSpecLine, bool markFirstLi
 
 	// Check if we're spec-ing a SLAVE setting
 	if ( 'S' == pulseLine.peek() ) {
-		std::string checkShift;
-		pulseLine >> checkShift >> pulseDuration;
+		std::string checkSetting;
+		pulseLine >> checkSetting >> pulseDuration;
 		if ( pulseLine.fail() ) return false;
 		pulseLine >> delim;
 		if ((!pulseLine.eof()) && ('#' != delim)) return false;
 
-		if ( std::string("SLAVE_SHIFT") == checkShift ) {
+		if ( std::string("SLAVE_SHIFT") == checkSetting ) {
 			slaveDelay(pulseDuration);
 			return true;
-		} else if ( std::string("SLAVE_AMPLITUDE") == checkShift ) {
+		} else if ( std::string("SLAVE_AMPLITUDE") == checkSetting ) {
 			slaveAmplitude(pulseDuration);
 			return true;
 		} else {
@@ -69,14 +69,30 @@ bool latticePair::processLine(const std::string &pulseSpecLine, bool markFirstLi
 
 	// Check if we're spec-ing a MASTER setting
 	if ( 'M' == pulseLine.peek() ) {
-		std::string checkShift;
-		pulseLine >> checkShift >> pulseDuration;
+		std::string checkSetting;
+		pulseLine >> checkSetting >> pulseDuration;
 		if ( pulseLine.fail() ) return false;
 		pulseLine >> delim;
 		if ((!pulseLine.eof()) && ('#' != delim)) return false;
 
-		if ( std::string("MASTER_AMPLITUDE") == checkShift ) {
+		if ( std::string("MASTER_AMPLITUDE") == checkSetting ) {
 			masterAmplitude(pulseDuration);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	// Check if we're spec-ing a MASTER setting
+	if ( 'C' == pulseLine.peek() ) {
+		std::string checkSetting;
+		pulseLine >> checkSetting >> pulseDuration;
+		if ( pulseLine.fail() ) return false;
+		pulseLine >> delim;
+		if ((!pulseLine.eof()) && ('#' != delim)) return false;
+
+		if ( std::string("CLOCK_FREQUENCY") == checkSetting ) {
+			clockFrequency(pulseDuration);
 			return true;
 		} else {
 			return false;
