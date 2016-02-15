@@ -43,7 +43,7 @@ after_failure:
 - echo -e "\e[31m(╯°□°)╯︵ ┻━┻  $HOST\e[0m"
 before_deploy:
 - cd ${TRAVIS_BUILD_DIR}/build
-- for TOOLCHAIN in $(ls ../cmake-toolchains/*.toolchain); do rm -rf ${TRAVIS_BUILD_DIR}/build/*; ../cmake-toolchains/movePackage.sh "$TOOLCHAIN"; done
+- for TOOLCHAIN in $(ls ../cmake/toolchain/*.toolchain); do rm -rf ${TRAVIS_BUILD_DIR}/build/*; ../cmake/toolchain/movePackage.sh "$TOOLCHAIN"; done
 - ls ${TRAVIS_BUILD_DIR}/deploy
 deploy:
   provider: releases
