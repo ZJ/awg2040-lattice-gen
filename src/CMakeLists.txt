@@ -15,12 +15,11 @@ add_custom_target(
 	-P "${CMAKE_CURRENT_SOURCE_DIR}/sampleFile.cmake"
 )
 
+add_subdirectory(pulseTrain)
+add_subdirectory(awg)
+add_subdirectory(latticePair)
+
 add_library(options "options.cpp")
-add_library(pulseTrain "pulseTrain.cpp")
-add_library(awg "awg.cpp")
-target_link_libraries(awg pulseTrain)
-add_library(latticePair "latticePair.cpp")
-target_link_libraries(latticePair awg pulseTrain)
 
 add_executable(awg2040-lattice-gen "main.cpp")
 target_link_libraries(awg2040-lattice-gen latticePair options)

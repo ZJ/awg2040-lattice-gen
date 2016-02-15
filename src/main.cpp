@@ -5,7 +5,7 @@
 using namespace std;
 
 #include "options.hpp"
-#include "latticePair.hpp"
+#include "latticePair/latticePair.hpp"
 
 // Auto-generated sources
 #include "version.h"

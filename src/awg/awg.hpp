@@ -3,7 +3,7 @@
 #include <string>
 #include <cstdio>
 
-#include "pulseTrain.hpp"
+#include "../pulseTrain/pulseTrain.hpp"
 
 class awg {
 	public:

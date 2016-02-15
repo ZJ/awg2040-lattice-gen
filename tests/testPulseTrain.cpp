@@ -3,7 +3,7 @@ using namespace std;
 
 #include <gtest/gtest.h>
 
-#include "../src/pulseTrain.hpp"
+#include "../src/pulseTrain/pulseTrain.hpp"
 
 class defaultPulseTrain : public ::testing::Test {
 	protected:

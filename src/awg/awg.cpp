@@ -1,6 +1,6 @@
 #include "awg.hpp"
 
-#include "pulseTrain.hpp"
+#include "../pulseTrain/pulseTrain.hpp"
 
 std::string awg::programmingString() {
 	// Say where we're going to store this one

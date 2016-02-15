@@ -1,7 +1,7 @@
 #ifndef LATTICEPAIR_HPP_2015_11_11
 #define LATTICEPAIR_HPP_2015_11_11
-#include "awg.hpp"
-#include "pulseTrain.hpp"
+#include "../awg/awg.hpp"
+#include "../pulseTrain/pulseTrain.hpp"
 
 #include <string>
 #include <sstream>

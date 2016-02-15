@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include "../src/awg.hpp"
+#include "../src/awg/awg.hpp"
 
-#include "../src/pulseTrain.hpp"
+#include "../src/pulseTrain/pulseTrain.hpp"
 #include <sstream>
 unsigned int getReportedSampleCount(std::string theString) {
 	unsigned int firstDigit = theString.find_first_of('#')+2;

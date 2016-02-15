@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <string>
 
-#include "../src/latticePair.hpp"
+#include "../src/latticePair/latticePair.hpp"
 
 class LatticePairProcessLine : public testing::Test {
 	protected:
